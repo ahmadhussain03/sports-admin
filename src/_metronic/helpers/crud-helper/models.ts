@@ -3,9 +3,13 @@ import {Dispatch, SetStateAction} from 'react'
 export type ID = undefined | null | number
 
 export type PaginationState = {
-  page: number
-  items_per_page: 10 | 30 | 50 | 100
-  links?: Array<{label: string; active: boolean; url: string | null; page: number | null}>
+  current_page: number
+  total: number
+  per_page: number
+  first_page_url: string | null
+  last_page_url: string | null
+  next_page_url?: string | null
+  previous_page_url?: string | null
 }
 
 export type SortState = {
@@ -28,8 +32,8 @@ export type Response<T> = {
     errors?: {
       [key: string]: Array<string>
     }
-    pagination?: PaginationState
   }
+  meta?: PaginationState
 }
 
 export type QueryState = PaginationState & SortState & FilterState & SearchState
@@ -40,8 +44,11 @@ export type QueryRequestContextProps = {
 }
 
 export const initialQueryState: QueryState = {
-  page: 1,
-  items_per_page: 10,
+  current_page: 1,
+  per_page: 15,
+  first_page_url: '',
+  last_page_url: '',
+  total: 0,
 }
 
 export const initialQueryRequest: QueryRequestContextProps = {

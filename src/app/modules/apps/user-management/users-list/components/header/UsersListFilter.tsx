@@ -20,7 +20,7 @@ const UsersListFilter = () => {
 
   const filterData = () => {
     updateState({
-      filter: {role, last_login: lastLogin},
+      filter: {},
       ...initialQueryState,
     })
   }

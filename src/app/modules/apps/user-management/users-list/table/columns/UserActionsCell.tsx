@@ -6,13 +6,17 @@ import {ID, KTSVG, QUERIES} from '../../../../../../../_metronic/helpers'
 import {useListView} from '../../core/ListViewProvider'
 import {useQueryResponse} from '../../core/QueryResponseProvider'
 import {deleteUser} from '../../core/_requests'
+import { useNavigate } from 'react-router-dom';
+import { User } from '../../core/_models'
 
 type Props = {
-  id: ID
+  id: ID,
+  user: User
 }
 
-const UserActionsCell: FC<Props> = ({id}) => {
+const UserActionsCell: FC<Props> = ({id, user}) => {
   const {setItemIdForUpdate} = useListView()
+  const navigation = useNavigate()
   const {query} = useQueryResponse()
   const queryClient = useQueryClient()
 
@@ -20,8 +24,10 @@ const UserActionsCell: FC<Props> = ({id}) => {
     MenuComponent.reinitialization()
   }, [])
 
-  const openEditModal = () => {
-    setItemIdForUpdate(id)
+  const redirectEditPage = () => {
+    navigation('/user-management/users/edit/' + id, {
+      state: user
+    })
   }
 
   const deleteItem = useMutation(() => deleteUser(id), {
@@ -50,7 +56,7 @@ const UserActionsCell: FC<Props> = ({id}) => {
       >
         {/* begin::Menu item */}
         <div className='menu-item px-3'>
-          <a className='menu-link px-3' onClick={openEditModal}>
+          <a className='menu-link px-3' onClick={redirectEditPage}>
             Edit
           </a>
         </div>

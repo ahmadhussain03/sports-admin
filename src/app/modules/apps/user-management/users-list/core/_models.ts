@@ -1,27 +1,20 @@
 import {ID, Response} from '../../../../../../_metronic/helpers'
-export type User = {
-  id?: ID
-  name?: string
-  avatar?: string
-  email?: string
-  position?: string
-  role?: string
-  last_login?: string
-  two_steps?: boolean
-  joined_day?: string
-  online?: boolean
-  initials?: {
-    label: string
-    state: string
-  }
+
+export interface Club {
+  id: number
+  name: string
+}
+
+export interface User {
+  id: number
+  username: string
+  password: string | undefined
+  email: string
+  name: string
+  user_type: string
+  email_verified_at: string | null
+  club_id: number
+  club?: Club
 }
 
 export type UsersQueryResponse = Response<Array<User>>
-
-export const initialUser: User = {
-  avatar: 'avatars/300-6.jpg',
-  position: 'Art Director',
-  role: 'Administrator',
-  name: '',
-  email: '',
-}

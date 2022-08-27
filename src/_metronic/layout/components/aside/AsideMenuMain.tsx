@@ -3,9 +3,11 @@ import {useIntl} from 'react-intl'
 import {AsideMenuItemWithSubMain} from './AsideMenuItemWithSubMain'
 import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
 import {AsideMenuItem} from './AsideMenuItem'
+import { useAuth } from '../../../../app/modules/auth'
 
 export function AsideMenuMain() {
   const intl = useIntl()
+  const { currentUser } = useAuth()
   return (
     <>
       <AsideMenuItem
@@ -157,13 +159,15 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/error/500' title='Error 500' hasBullet={true} />
       </AsideMenuItemWithSubMain> */}
 
-      {/* <AsideMenuItem
-        to='/apps/user-management/users'
-        title='User management'
-        fontIcon='bi-people'
-        bsTitle='User management'
-        className='py-3'
-      /> */}
+      {currentUser?.user_type === 'Owner' && (
+         <AsideMenuItem
+          to='/user-management/users'
+          title='User management'
+          fontIcon='bi-people'
+          bsTitle='User management'
+          className='py-3'
+        />
+      )}
       {/* <AsideMenuItem
         outside={true}
         to={process.env.REACT_APP_PREVIEW_DOCS_URL + '/docs/changelog'}

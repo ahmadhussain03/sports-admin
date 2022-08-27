@@ -1,9 +1,12 @@
 import axios from '../../../utils/axios'
 import {AuthModel, UserModel} from './_models'
+import { UserInformationForm } from './../../apps/user-management/users-information-list/core/_models';
 
 const API_URL = process.env.REACT_APP_API_URL
 
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/user`
+export const USER_CODE_VALIDATION = `${API_URL}/user_request_verify`
+export const USER_CODE_REGISTERATION = `${API_URL}/user_request_register`
 export const LOGIN_URL = `${API_URL}/login`
 export const REGISTER_URL = `${API_URL}/register`
 export const REQUEST_PASSWORD_VERIFICATION_CODE_URL = `${API_URL}/password_forgot`
@@ -17,6 +20,14 @@ export interface RegisterPayload {
   password: string,
   password_confirmation: string,
   clubName: string,
+}
+
+export interface RegisterInformationPayload {
+  name: string,
+  username: string,
+  password: string,
+  password_confirmation: string,
+  code: string,
 }
 
 export interface PasswordResetPayload {
@@ -59,4 +70,12 @@ export function getUserByToken(token: string) {
       'Authorization': `Bearer ${token}`
     }
   })
+}
+
+export function validateCode(code: string) {
+  return axios.post<UserInformationForm>(USER_CODE_VALIDATION, {code})
+}
+
+export function registerInformation(data: RegisterInformationPayload) {
+  return axios.post<UserModel>(USER_CODE_REGISTERATION, data)
 }

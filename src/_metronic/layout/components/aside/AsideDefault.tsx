@@ -28,7 +28,7 @@ const AsideDefault: FC = () => {
         id='kt_aside_logo'
       >
         <Link to='/dashboard'>
-          <img src={toAbsoluteUrl('/media/logos/demo4.svg')} alt='logo' className="h-55px" />
+          <img src={toAbsoluteUrl('/media/logos/default.png')} alt='logo' className="h-80px" />
         </Link>
       </div>
       {/* end::Logo */}

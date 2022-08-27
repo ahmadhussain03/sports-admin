@@ -5,6 +5,8 @@ import {Registration} from './components/Registration'
 import {ForgotPassword} from './components/ForgotPassword'
 import {Login} from './components/Login'
 import {toAbsoluteUrl} from '../../../_metronic/helpers'
+import { UserInformationForm } from './components/UserInformationForm';
+import { Navigate } from 'react-router-dom';
 
 const AuthLayout = () => {
   useEffect(() => {
@@ -25,7 +27,7 @@ const AuthLayout = () => {
       <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
         {/* begin::Logo */}
         <a href='#' className='mb-12'>
-          <img alt='Logo' src={toAbsoluteUrl('/media/logos/default.svg')} className='h-45px' />
+          <img alt='Logo' src={toAbsoluteUrl('/media/logos/default-1.png')} className='h-125px' />
         </a>
         {/* end::Logo */}
         {/* begin::Wrapper */}
@@ -62,7 +64,9 @@ const AuthPage = () => (
       <Route path='login' element={<Login />} />
       <Route path='registration' element={<Registration />} />
       <Route path='forgot-password' element={<ForgotPassword />} />
+      <Route path='user-information-form' element={<UserInformationForm />} />
       <Route index element={<Login />} />
+      <Route path='*' element={<Navigate to="/error/404" />} />
     </Route>
   </Routes>
 )
