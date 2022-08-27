@@ -29,7 +29,7 @@ export const DefaultLayoutConfig: ILayout = {
   },
   aside: {
     fixed: true,
-    menuIcon: 'font',
+    menuIcon: 'svg',
   },
   content: {
     width: 'fixed', // Set fixed|fluid to change width

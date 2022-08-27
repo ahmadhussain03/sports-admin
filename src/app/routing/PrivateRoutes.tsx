@@ -18,6 +18,7 @@ const PrivateRoutes = () => {
   const WidgetsPage = lazy(() => import('../modules/widgets/WidgetsPage'))
   const ChatPage = lazy(() => import('../modules/apps/chat/ChatPage'))
   const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
+  const TeamsPage = lazy(() => import('../modules/apps/team-management/TeamsPage'))
 
   return (
     <Routes>
@@ -79,6 +80,14 @@ const PrivateRoutes = () => {
             }
           />
         )}
+        <Route
+          path='/team-management/*'
+          element={
+            <SuspensedView>
+              <TeamsPage />
+            </SuspensedView>
+          }
+        />
         {/* Page Not Found */}
         <Route path='*' element={<Navigate to='/error/404' />} />
       </Route>

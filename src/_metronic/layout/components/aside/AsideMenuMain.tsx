@@ -4,6 +4,7 @@ import {AsideMenuItemWithSubMain} from './AsideMenuItemWithSubMain'
 import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
 import {AsideMenuItem} from './AsideMenuItem'
 import { useAuth } from '../../../../app/modules/auth'
+import { KTSVG } from '../../../helpers/components/KTSVG'
 
 export function AsideMenuMain() {
   const intl = useIntl()
@@ -165,9 +166,18 @@ export function AsideMenuMain() {
           title='User management'
           fontIcon='bi-people'
           bsTitle='User management'
+          icon='/media/icons/duotune/communication/com013.svg'
           className='py-3'
         />
       )}
+
+        <AsideMenuItem
+          to='/team-management/teams'
+          title='Team Management'
+          icon='/media/icons/duotune/communication/com014.svg'
+          bsTitle='Team management'
+          className='py-3'
+        />
       {/* <AsideMenuItem
         outside={true}
         to={process.env.REACT_APP_PREVIEW_DOCS_URL + '/docs/changelog'}

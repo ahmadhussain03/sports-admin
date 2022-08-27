@@ -1,16 +1,13 @@
 import {useEffect} from 'react'
 import {useIntl} from 'react-intl'
+import { KTSVG } from '../../../_metronic/helpers'
 import {PageTitle} from '../../../_metronic/layout/core'
-import {
-  ListsWidget4,
-  ListsWidget5,
-  TablesWidget10,
-  MixedWidget8,
-  MixedWidget5,
-  MixedWidget3,
-} from '../../../_metronic/partials/widgets'
+import { useNavigate } from 'react-router-dom';
 
 const DashboardPage = () => {
+
+  const navigation = useNavigate()
+
   useEffect(() => {
     // We have to show toolbar only for dashboard page
     document.getElementById('kt_layout_toolbar')?.classList.remove('d-none')
@@ -36,78 +33,74 @@ const DashboardPage = () => {
       {/* </div> */}
       {/* end::Row  */}
 
-      {/* begin::Row  */}
-      <div className='row gy-5 g-xl-8'>
-        {/* begin::Col  */}
-        {/* <div className='col-xl-4'>
-          <ListsWidget5 className='card-xl-stretch mb-xl-8' />
-        </div> */}
-        {/* end::Col  */}
-        {/* begin::Col  */}
-        {/* <div className='col-xl-4'>
-          <MixedWidget3
-            className='card-xl-stretch mb-5 mb-xl-8'
-            chartColor='primary'
-            chartHeight='225px'
-          />
-        </div> */}
-        {/* end::Col  */}
-        {/* begin::Col  */}
-        {/* <div className='col-xl-4'>
-          <ListsWidget4 className='card-xl-stretch mb-5 mb-xl-8' items={6} />
-        </div> */}
-        {/* end::Col  */}
+     
+      <div className={`card card-xl-stretch mb-xl-12`}>
+      {/* begin::Header */}
+      <div className={`card-header border-0 py-20 bg-info`}>
+        <h3 className='card-title fw-bold text-white'>Dashboard</h3>
       </div>
-      {/* end::Row  */}
-
-      {/* begin::Row */}
-      <div className='row my-5 g-5 gx-xl-8'>
-        {/* begin::Col */}
-        <div className='col-xl-4'>
-          <MixedWidget5
-            className='card-xl-stretch mb-5 mb-xl-0'
-            image='/media/svg/brand-logos/plurk.svg'
-            time='7 hours ago'
-            title='PitStop - Multiple Email Generator'
-            description='
-                Pitstop creates quick email campaigns.<br/>
-                We help to strengthen your brand.
-            '
-          />
+      {/* end::Header */}
+      {/* begin::Body */}
+      <div className='card-body p-0'>
+        {/* begin::Stats */}
+        <div className='card-p mt-n20 position-relative'>
+          {/* begin::Row */}
+          <div className='row g-0'>
+            {/* begin::Col */}
+            <a className='col bg-light-warning px-6 py-8 rounded-2 me-7 mb-7' style={{cursor: 'pointer'}}>
+              <KTSVG
+                path='/media/icons/duotune/communication/com013.svg'
+                className='svg-icon-3x svg-icon-warning d-block my-2'
+              />
+              <span className='text-warning fw-semibold fs-6'>
+                Players
+              </span>
+            </a>
+            {/* end::Col */}
+            {/* begin::Col */}
+            <a onClick={() => navigation('/team-management/teams')} className='col bg-light-primary px-6 py-8 rounded-2 mb-7' style={{cursor: 'pointer'}}>
+              <KTSVG
+                path='/media/icons/duotune/communication/com014.svg'
+                className='svg-icon-3x svg-icon-primary d-block my-2'
+              />
+              <span className='text-primary fw-semibold fs-6'>
+                Teams
+              </span>
+            </a>
+            {/* end::Col */}
+          </div>
+          {/* end::Row */}
+          {/* begin::Row */}
+          <div className='row g-0'>
+            {/* begin::Col */}
+            <a className='col bg-light-danger px-6 py-8 rounded-2 me-7' style={{cursor: 'pointer'}}>
+              <KTSVG
+                path='/media/icons/duotune/maps/map001.svg'
+                className='svg-icon-3x svg-icon-danger d-block my-2'
+              />
+              <span className='text-danger fw-semibold fs-6 mt-2'>
+                Sessions
+              </span>
+            </a>
+            {/* end::Col */}
+            {/* begin::Col */}
+            <a onClick={() => navigation('/user-management/users')} className='col bg-light-success px-6 py-8 rounded-2' style={{cursor: 'pointer'}}>
+              <KTSVG
+                path='/media/icons/duotune/communication/com006.svg'
+                className='svg-icon-3x svg-icon-success d-block my-2'
+              />
+              <span className='text-success fw-semibold fs-6 mt-2'>
+                Users
+              </span>
+            </a>
+            {/* end::Col */}
+          </div>
+          {/* end::Row */}
         </div>
-        {/* end::Col */}
-
-        {/* begin::Col */}
-        <div className='col-xl-4'>
-          <MixedWidget5
-            className='card-xl-stretch mb-5 mb-xl-0'
-            image='/media/svg/brand-logos/telegram.svg'
-            time='10 days ago'
-            title='ReactJS Admin Theme'
-            description='
-            Keenthemes uses the latest and greatest<br/>
-            frameworks for complete modernization.
-            '
-          />
-        </div>
-        {/* end::Col */}
-
-        {/* begin::Col */}
-        <div className='col-xl-4'>
-          <MixedWidget5
-            className='card-xl-stretch mb-5 mb-xl-0'
-            image='/media/svg/brand-logos/vimeo.svg'
-            time='2 weeks ago'
-            title='KT.com - High Quality Templates'
-            description='
-            Easy to use, incredibly flexible and secure<br/>
-            with in-depth documentation that outlines.
-            '
-          />
-        </div>
-        {/* end::Col */}
+        {/* end::Stats */}
       </div>
-      {/* end::Row */}
+      {/* end::Body */}
+    </div>
     </>
   )
 }

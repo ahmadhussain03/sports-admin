@@ -76,16 +76,14 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
               )}
               {icon && aside.menuIcon === 'svg' && (
                 <span className='menu-icon'>
-                  <KTSVG path={icon} className='svg-icon-2' />
+                  <KTSVG path={icon} className='svg-icon svg-icon-2x' />
                 </span>
               )}
               {fontIcon && aside.menuIcon === 'font' ? (
                 <span className='menu-icon me-0'>
                   <i className={clsx('bi', fontIcon, 'fs-2')}></i>
                 </span>
-              ) : (
-                <span className='menu-title'>{title}</span>
-              )}
+              ) : null}
             </Link>
             {children}
           </>
