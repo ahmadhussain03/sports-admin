@@ -105,7 +105,7 @@ const UsersCreate = () => {
               {/* end::Form group */}
               {/* begin::Form group Username */}
               <div className='fv-row mb-5'>
-                  <label className='form-label fs-7 fw-bolder text-dark'>Email / Username</label>
+                  <label className='form-label fs-7 fw-bolder text-dark'>Username</label>
                   <input
                   placeholder='Username'
                   {...formik.getFieldProps('username')}
@@ -227,6 +227,7 @@ const UsersCreate = () => {
                   )} aria-label="Select example">
                   <option>Select Role</option>
                   <option value="Coach">Coach</option>
+                  <option value="Treasurie">Treasurie</option>
                   <option value="Secretary">Secretary</option>
                 </select>
                 {formik.touched.role && formik.errors.role && (

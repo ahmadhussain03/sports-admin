@@ -174,6 +174,7 @@ const UsersEdit = () => {
                   )} aria-label="Select example">
                   <option>Select Role</option>
                   <option value="Coach">Coach</option>
+                  <option value="Treasurie">Treasurie</option>
                   <option value="Secretary">Secretary</option>
                 </select>
                 {formik.touched.role && formik.errors.role && (

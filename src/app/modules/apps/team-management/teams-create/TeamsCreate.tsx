@@ -74,7 +74,7 @@ const TeamsCreate = () => {
                 <span style={{cursor: 'pointer'}} onClick={() => navigation(-1)}>
                   <KTSVG path='/media/icons/duotune/arrows/arr002.svg' className='svg-icon-2 me-2' />
                 </span> 
-                Edit Team
+                Create Team
               </h3>
           </div>
           <div className="card-body">
