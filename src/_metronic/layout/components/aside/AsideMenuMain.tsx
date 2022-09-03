@@ -166,18 +166,26 @@ export function AsideMenuMain() {
           title='User management'
           fontIcon='bi-people'
           bsTitle='User management'
-          icon='/media/icons/duotune/communication/com013.svg'
+          icon='/media/icons/duotune/communication/com006.svg'
           className='py-3'
         />
       )}
 
-        <AsideMenuItem
-          to='/team-management/teams'
-          title='Team Management'
-          icon='/media/icons/duotune/communication/com014.svg'
-          bsTitle='Team management'
-          className='py-3'
-        />
+      <AsideMenuItem
+        to='/team-management/teams'
+        title='Team Management'
+        icon='/media/icons/duotune/communication/com014.svg'
+        bsTitle='Team management'
+        className='py-3'
+      />
+
+      <AsideMenuItem
+        to='/player-management/players'
+        title='Player Management'
+        icon='/media/icons/duotune/communication/com013.svg'
+        bsTitle='Player management'
+        className='py-3'
+      />
       {/* <AsideMenuItem
         outside={true}
         to={process.env.REACT_APP_PREVIEW_DOCS_URL + '/docs/changelog'}

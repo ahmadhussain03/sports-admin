@@ -52,7 +52,7 @@ const TeamsPage = () => {
         />
       </Route>
       <Route index element={<Navigate to='/team-management/teams' />} />
-      {/* <Route path='*' element={<Navigate to='/error/404' />} /> */}
+      <Route path='*' element={<Navigate to='/error/404' />} />
     </Routes>
   )
 }

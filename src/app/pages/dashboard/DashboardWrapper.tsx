@@ -47,7 +47,7 @@ const DashboardPage = () => {
           {/* begin::Row */}
           <div className='row g-0'>
             {/* begin::Col */}
-            <a className='col bg-light-warning px-6 py-8 rounded-2 me-7 mb-7' style={{cursor: 'pointer'}}>
+            <a onClick={() => navigation('/player-management/players')} className='col bg-light-warning px-6 py-8 rounded-2 me-7 mb-7' style={{cursor: 'pointer'}}>
               <KTSVG
                 path='/media/icons/duotune/communication/com013.svg'
                 className='svg-icon-3x svg-icon-warning d-block my-2'
