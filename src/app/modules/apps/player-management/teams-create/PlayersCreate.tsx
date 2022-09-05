@@ -6,8 +6,10 @@ import { useState, useEffect } from 'react';
 import { createPlayer } from './core/_request';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../auth';
+import { AsyncPaginate, LoadOptions } from 'react-select-async-paginate';
+import { getTeams } from '../../uncategorized-player-management/players-assign/core/_request';
 
-const initialValues = {
+const initialValues: { team: { value: string, label: string } | null, firstName: string, lastName: string, email: string, phoneNumber: string, address: string, postCode: string, notes?: string } = {
   firstName: '',
   lastName: '',
   email: '',
@@ -15,6 +17,7 @@ const initialValues = {
   address: '',
   postCode: '',
   notes: '',
+  team: null
 }
 
 const PlayersCreate = () => {
@@ -26,7 +29,16 @@ const PlayersCreate = () => {
     onSubmit: async (values, {setStatus, setSubmitting, setFieldError, setFieldValue}) => {
       try {
         setLoading(true)
-        await createPlayer(values)
+        await createPlayer({
+          address: values.address,
+          email: values.email,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          phoneNumber: values.phoneNumber,
+          postCode: values.postCode,
+          notes: values.notes,
+          team: values.team?.value
+        })
         setLoading(false)
       } catch (error: any) {
         if(error?.response?.status === 422 && error?.response?.data?.errors) {
@@ -56,6 +68,20 @@ const PlayersCreate = () => {
     formik.submitForm().then(() => {
       formik.resetForm()
     })
+  }
+
+  const loadOptions: LoadOptions<{value: string, label: string}, any, any> =  async (search, loadedOptions, { page }) => {
+
+    const response = await getTeams(search, page);
+  
+    return {
+      options: response.data.data.map((data: any) => ({value: data.id, label: `${data.name} (${data.league})`})),
+      hasMore: response.data.meta.next_page_url ? true : false,
+      additional: {
+        page: page + 1,
+      },
+      ...loadedOptions
+    };
   }
 
   return (
@@ -230,6 +256,31 @@ const PlayersCreate = () => {
                   <div className='fv-plugins-message-container'>
                     <div className='fv-help-block'>
                       <span role='alert'>{formik.errors.postCode}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* end::Form group */}
+
+              {/* begin::Form group Team */}
+              <div className='fv-row mb-5'>
+                <label className='form-label fw-bolder text-dark fs-7'>Team</label>
+                <AsyncPaginate
+                    value={formik.values.team}
+                    loadOptions={loadOptions}
+                    onChange={value => formik.setFieldValue('team', value)}
+                    isClearable={true}
+                    additional={{
+                        page: 1,
+                    }}
+                    debounceTimeout={300}
+                    placeholder="Team"
+                    noOptionsMessage={() => "No Record Found!"}
+                />
+                {formik.touched.team && formik.errors.team && (
+                  <div className='fv-plugins-message-container'>
+                    <div className='fv-help-block'>
+                      <span role='alert'>{formik.errors.team?.toString()}</span>
                     </div>
                   </div>
                 )}

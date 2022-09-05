@@ -7,8 +7,10 @@ import { updatePlayer } from './core/_request';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Player } from '../players-list/core/_models';
 import { useAuth } from '../../../auth';
+import { AsyncPaginate, LoadOptions } from 'react-select-async-paginate';
+import { getTeams } from '../../uncategorized-player-management/players-assign/core/_request';
 
-const initialValues: {notes?: string | null, firstName: string, lastName: string, email: string, phoneNumber: string, address: string, postCode: string} = {
+const initialValues: { team: { value: string, label: string } | null, firstName: string, lastName: string, email: string, phoneNumber: string, address: string, postCode: string, notes?: string | null } = {
   firstName: '',
   lastName: '',
   email: '',
@@ -16,6 +18,7 @@ const initialValues: {notes?: string | null, firstName: string, lastName: string
   address: '',
   postCode: '',
   notes: '',
+  team: null,
 }
 
 const PlayersEdit = () => {
@@ -31,7 +34,16 @@ const PlayersEdit = () => {
     onSubmit: async (values, {setStatus, setSubmitting, setFieldError}) => {
       try {
         setLoading(true)
-        await updatePlayer(values, player.id)
+        await updatePlayer({
+          address: values.address,
+          email: values.email,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          phoneNumber: values.phoneNumber,
+          postCode: values.postCode,
+          notes: values.notes,
+          team: values.team?.value
+        }, player.id)
         setLoading(false)
         navigation('/player-management/players')
       } catch (error: any) {
@@ -60,7 +72,12 @@ const PlayersEdit = () => {
           notes: player.notes,
           phoneNumber: player.phone_number,
           postCode: player.post_code,
+          team: null
         })
+
+        if(player.team) {
+          formik.setFieldValue('team', { value: player.team.id, label: `${player.team.name} (${player.team.league})` })
+        }
     } else {
       navigation('/error/404')
     }
@@ -69,6 +86,20 @@ const PlayersEdit = () => {
   useEffect(() => {
     formik.setFieldValue('club_name', currentUser?.club?.name)
   }, [currentUser?.club])
+
+  const loadOptions: LoadOptions<{value: string, label: string}, any, any> =  async (search, loadedOptions, { page }) => {
+
+    const response = await getTeams(search, page);
+  
+    return {
+      options: response.data.data.map((data: any) => ({value: data.id, label: `${data.name} (${data.league})`})),
+      hasMore: response.data.meta.next_page_url ? true : false,
+      additional: {
+        page: page + 1,
+      },
+      ...loadedOptions
+    };
+  }
 
   return (
     <>
@@ -242,6 +273,31 @@ const PlayersEdit = () => {
                   <div className='fv-plugins-message-container'>
                     <div className='fv-help-block'>
                       <span role='alert'>{formik.errors.postCode}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* end::Form group */}
+
+              {/* begin::Form group Team */}
+              <div className='fv-row mb-5'>
+                <label className='form-label fw-bolder text-dark fs-7'>Team</label>
+                <AsyncPaginate
+                    value={formik.values.team}
+                    loadOptions={loadOptions}
+                    onChange={value => formik.setFieldValue('team', value)}
+                    isClearable={true}
+                    additional={{
+                        page: 1,
+                    }}
+                    debounceTimeout={300}
+                    placeholder="Team"
+                    noOptionsMessage={() => "No Record Found!"}
+                />
+                {formik.touched.team && formik.errors.team && (
+                  <div className='fv-plugins-message-container'>
+                    <div className='fv-help-block'>
+                      <span role='alert'>{formik.errors.team?.toString()}</span>
                     </div>
                   </div>
                 )}

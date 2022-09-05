@@ -1,0 +1,22 @@
+import {useListView} from '../../core/ListViewProvider'
+import {PlayerListToolbar} from './SessionListToolbar'
+import {UsersListGrouping} from './UsersListGrouping'
+import {PlayersListSearchComponent} from './PlayersListSearchComponent'
+
+const SessionsListHeader = () => {
+  const {selected} = useListView()
+  return (
+    <div className='card-header border-0 pt-6'>
+      <PlayersListSearchComponent />
+      {/* begin::Card toolbar */}
+      <div className='card-toolbar'>
+        {/* begin::Group actions */}
+        {selected.length > 0 ? <UsersListGrouping /> : <PlayerListToolbar />}
+        {/* end::Group actions */}
+      </div>
+      {/* end::Card toolbar */}
+    </div>
+  )
+}
+
+export {SessionsListHeader}

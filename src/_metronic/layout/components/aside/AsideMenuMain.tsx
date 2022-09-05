@@ -186,6 +186,14 @@ export function AsideMenuMain() {
         bsTitle='Player management'
         className='py-3'
       />
+
+      <AsideMenuItem
+        to='/session-management/sessions'
+        title='Session Management'
+        icon='/media/icons/duotune/maps/map001.svg'
+        bsTitle='Session management'
+        className='py-3'
+      />
       {/* <AsideMenuItem
         outside={true}
         to={process.env.REACT_APP_PREVIEW_DOCS_URL + '/docs/changelog'}

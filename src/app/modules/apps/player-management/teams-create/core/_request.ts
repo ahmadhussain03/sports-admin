@@ -13,6 +13,7 @@ export interface CreatePlayerPayload {
     postCode: string,
     phoneNumber: string,
     notes?: string | null,
+    team?: number | string | null
 }
 
 export function createPlayer(payload: CreatePlayerPayload) {

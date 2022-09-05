@@ -20,6 +20,7 @@ const PrivateRoutes = () => {
   const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
   const TeamsPage = lazy(() => import('../modules/apps/team-management/TeamsPage'))
   const PlayersPage = lazy(() => import('../modules/apps/player-management/PlayersPage'))
+  const SessionsPage = lazy(() => import('../modules/apps/session-management/SessionsPage'))
   const UncategorizedPlayersPage = lazy(() => import('../modules/apps/uncategorized-player-management/UncategorizedPlayersPage'))
 
   return (
@@ -95,6 +96,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <PlayersPage />
+            </SuspensedView>
+          }
+        />
+         <Route
+          path='/session-management/*'
+          element={
+            <SuspensedView>
+              <SessionsPage />
             </SuspensedView>
           }
         />

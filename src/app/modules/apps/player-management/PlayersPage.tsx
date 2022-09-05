@@ -3,6 +3,7 @@ import {PageLink, PageTitle} from '../../../../_metronic/layout/core'
 import {PlayersCreate} from './teams-create/PlayersCreate'
 import { PlayersEdit } from './teams-edit/PlayersEdit'
 import {PlayersListWrapper} from './players-list/PlayersList'
+import { PlayersView } from './players-view/PlayersView'
 
 const playersBreadcrumbs: Array<PageLink> = [
   {
@@ -50,9 +51,18 @@ const PlayersPage = () => {
             </>
           }
         />
+        <Route
+          path='players/view/:id'
+          element={
+            <>
+              <PageTitle breadcrumbs={playersBreadcrumbs}>Player View</PageTitle>
+              <PlayersView />
+            </>
+          }
+        />
       </Route>
       <Route index element={<Navigate to='/player-management/players' />} />
-      {/* <Route path='*' element={<Navigate to='/error/404' />} /> */}
+      <Route path='*' element={<Navigate to='/error/404' />} />
     </Routes>
   )
 }
