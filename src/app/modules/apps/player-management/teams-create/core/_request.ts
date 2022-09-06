@@ -9,8 +9,8 @@ export interface CreatePlayerPayload {
     firstName: string,
     lastName: string,
     email: string,
-    address: string,
-    postCode: string,
+    address?: string | null,
+    postCode?: string | null,
     phoneNumber: string,
     notes?: string | null,
     team?: number | string | null

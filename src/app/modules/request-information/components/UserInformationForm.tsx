@@ -1,14 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {useState, useEffect} from 'react'
-import {useFormik} from 'formik'
+import { useState, useEffect } from 'react'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
-import {validateCode, registerInformation} from '../core/_requests'
-import {Link} from 'react-router-dom'
-import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
-import {useAuth} from '../core/Auth'
+import { Link } from 'react-router-dom'
+import { PasswordMeterComponent } from '../../../../_metronic/assets/ts/components'
+import { useAuth } from '../../auth/core/Auth'
 import { getError } from '../../../utils/helpers'
 import { useNavigate } from 'react-router-dom';
+import { registerInformation, validateCode } from '../core/_request'
+import { toast } from 'react-toastify';
 
 const initialValues = {
   name: '',
@@ -25,7 +26,7 @@ export function UserInformationForm() {
 
   const formik = useFormik({
     initialValues,
-    onSubmit: async (values, {setStatus, setSubmitting, setFieldError}) => {
+    onSubmit: async (values, { setStatus, setSubmitting, setFieldError }) => {
       setLoading(true)
       try {
         await registerInformation(
@@ -37,15 +38,15 @@ export function UserInformationForm() {
             code: values.code,
           }
         )
-
+        toast.success('Information Added Successfully.')
         navigation('/auth/login')
 
       } catch (error: any) {
         console.error(error.response)
-        if(error?.response?.status === 422 && error?.response?.data?.errors) {
+        if (error?.response?.status === 422 && error?.response?.data?.errors) {
           error.response.data.errors.map((e: any) => setFieldError(e.field, getError(error.response.data.errors, e.field)))
         }
-        if(error?.response?.data?.message) {
+        if (error?.response?.data?.message) {
           setStatus(error.response.data.message)
         } else {
           setStatus('The registration details is incorrect')
@@ -71,12 +72,12 @@ export function UserInformationForm() {
       }
     }
 
-    if(!code) {
+    if (!code) {
       navigation('/error/404')
     } else {
       verify(code)
     }
-    
+
 
   }, [])
 
@@ -97,7 +98,7 @@ export function UserInformationForm() {
           {/* begin::Link */}
           <div className='text-gray-400 fw-bold fs-4'>
             Already have an account?
-            <Link to='/auth/login' className='link-primary fw-bolder' style={{marginLeft: '5px'}}>
+            <Link to='/auth/login' className='link-primary fw-bolder' style={{ marginLeft: '5px' }}>
               Sign In
             </Link>
           </div>
@@ -121,7 +122,7 @@ export function UserInformationForm() {
             {...formik.getFieldProps('name')}
             className={clsx(
               'form-control form-control-lg form-control-solid',
-              {'is-invalid': formik.touched.name && formik.errors.name},
+              { 'is-invalid': formik.touched.name && formik.errors.name },
               {
                 'is-valid': formik.touched.name && !formik.errors.name,
               }
@@ -147,7 +148,7 @@ export function UserInformationForm() {
             {...formik.getFieldProps('username')}
             className={clsx(
               'form-control form-control-lg form-control-solid',
-              {'is-invalid': formik.touched.username && formik.errors.username},
+              { 'is-invalid': formik.touched.username && formik.errors.username },
               {
                 'is-valid': formik.touched.username && !formik.errors.username,
               }
@@ -233,7 +234,7 @@ export function UserInformationForm() {
           >
             {!loading && <span className='indicator-label'>Submit</span>}
             {loading && (
-              <span className='indicator-progress' style={{display: 'block'}}>
+              <span className='indicator-progress' style={{ display: 'block' }}>
                 Please wait...{' '}
                 <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
               </span>
