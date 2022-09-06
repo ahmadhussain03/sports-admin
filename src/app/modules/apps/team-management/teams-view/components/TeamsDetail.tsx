@@ -1,36 +1,39 @@
-
-import { Player } from '../../players-list/core/_models';
 import ShowMoreText from "react-show-more-text";
+import { Team } from '../../teams-list/core/_models';
 
-interface IPlayerDetail {
-    player: Player
+interface ITeamsDetail {
+    team: Team
 }
 
-const PlayerDetail: React.FC<IPlayerDetail> = ({ player }) => {
+const TeamsDetail: React.FC<ITeamsDetail> = ({ team }) => {
     return (
         <div className='container'>
             <div className="row">
                 <div className="card card-custom col me-4">
                     <div className="card-body">
                         <div className="d-flex flex-column">
-                            <h1>Player Detail</h1>
+                            <h1>Team Information</h1>
                             <div className="d-flex flex-column my-4">
-                                <p className="fs-5 m-0">Player Name</p>
-                                <h3 className='m-0'>{player.first_name} {player.last_name}</h3>
+                                <p className="fs-5 m-0">Name</p>
+                                <h3 className='m-0'>{team.name}</h3>
                             </div>
                             <div className="d-flex flex-column my-4">
-                                <p className="fs-5 m-0">Phone Number</p>
-                                <h3 className='m-0'>{player.phone_number}</h3>
+                                <p className="fs-5 m-0">League</p>
+                                <h3 className='m-0'>{team.league}</h3>
                             </div>
                             <div className="d-flex flex-column my-4">
-                                <p className="fs-5 m-0">Email</p>
-                                <h3 className='m-0'>{player.email}</h3>
+                                <p className="fs-5 m-0"># Of Players</p>
+                                <h3 className='m-0'>{team.players_count}</h3>
                             </div>
                             <div className="d-flex flex-column my-4">
-                                <p className="fs-5 m-0">Address</p>
-                                <h3 className='m-0'>{player.address}</h3>
+                                <p className="fs-5 m-0">Training Sessions</p>
+                                <h3 className='m-0'>{team.training_count}</h3>
                             </div>
-                            {!!player.notes && (
+                            <div className="d-flex flex-column my-4">
+                                <p className="fs-5 m-0">Games</p>
+                                <h3 className='m-0'>{team.game_count}</h3>
+                            </div>
+                            {!!team.notes && (
                                 <div className="d-flex flex-column my-4">
                                     <p className="fs-5 m-0">Notes</p>
                                     <h3>
@@ -43,7 +46,7 @@ const PlayerDetail: React.FC<IPlayerDetail> = ({ player }) => {
                                             expanded={false}
                                             truncatedEndingComponent={"... "}
                                         >
-                                            {player.notes}
+                                            {team.notes}
 
                                         </ShowMoreText>
                                     </h3>
@@ -55,22 +58,18 @@ const PlayerDetail: React.FC<IPlayerDetail> = ({ player }) => {
                 <div className="card card-custom col me-4">
                     <div className="card-body">
                         <div className="d-flex flex-column">
-                            <h1>Financial Details</h1>
+                            <h1>Financial Information</h1>
                             <div className="d-flex flex-column my-4">
-                                <p className="fs-5 m-0">Player Name</p>
-                                <h3 className='m-0'>{player.last_name} {player.last_name}</h3>
+                                <p className="fs-5 m-0">Session Attended</p>
+                                <h3 className='m-0'>{team.session_attended_count}</h3>
                             </div>
                             <div className="d-flex flex-column my-4">
-                                <p className="fs-5 m-0">Sessions Attended</p>
-                                <h3 className='m-0'>{player.attended_count}</h3>
-                            </div>
-                            <div className="d-flex flex-column my-4">
-                                <p className="fs-5 m-0">Sessions Outstanding</p>
-                                <h3 className='m-0'>{player.session_outstanding_count}</h3>
+                                <p className="fs-5 m-0">Session Outstanding</p>
+                                <h3 className='m-0'>{team.session_outstanding_count}</h3>
                             </div>
                             <div className="d-flex flex-column my-4">
                                 <p className="fs-5 m-0">Outstanding Payment</p>
-                                <h3 className='m-0'>{player.payment_outstanding_count}</h3>
+                                <h3 className='m-0'>{team.outstanding_payment}</h3>
                             </div>
                         </div>
                     </div>
@@ -80,4 +79,4 @@ const PlayerDetail: React.FC<IPlayerDetail> = ({ player }) => {
     )
 }
 
-export default PlayerDetail
+export default TeamsDetail

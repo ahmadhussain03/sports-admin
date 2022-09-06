@@ -2,12 +2,13 @@ import {Column} from 'react-table'
 import {TeamActionsCell} from './TeamActionsCell'
 import {TeamCustomHeader} from './TeamCustomHeader'
 import {Team} from '../../core/_models'
+import { TeamInfoCell } from './TeamInfoCell'
 
 const usersColumns: ReadonlyArray<Column<Team>> = [
   {
     Header: (props) => <TeamCustomHeader tableProps={props} title='Name' className='min-w-125px' />,
     id: 'name',
-    accessor: 'name',
+    Cell: ({...props}) => <TeamInfoCell team={props.data[props.row.index]} />
   },
   {
     Header: (props) => (

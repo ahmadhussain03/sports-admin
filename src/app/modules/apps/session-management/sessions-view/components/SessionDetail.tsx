@@ -1,6 +1,5 @@
-
-import { FC } from 'react';
 import { Session } from '../../sessions-list/core/_models';
+import ShowMoreText from "react-show-more-text";
 
 interface ISessionDetail {
     session: Session
@@ -37,7 +36,20 @@ const SessionDetail: React.FC<ISessionDetail> = ({ session }) => {
                             {!!session.notes && (
                                 <div className="d-flex flex-column my-4">
                                     <p className="fs-5 m-0">Notes</p>
-                                    <h3 className='m-0'>{session.notes}</h3>
+                                    <h3>
+                                        <ShowMoreText
+                                            lines={4}
+                                            more="Show more"
+                                            less="Show less"
+                                            className="content-css"
+                                            anchorClass="my-anchor-css-class"
+                                            expanded={false}
+                                            truncatedEndingComponent={"... "}
+                                        >
+                                            {session.notes}
+
+                                        </ShowMoreText>
+                                    </h3>
                                 </div>
                             )}
                             <div className="d-flex flex-column my-4">
@@ -45,7 +57,7 @@ const SessionDetail: React.FC<ISessionDetail> = ({ session }) => {
                                 <div className="d-flex flex-column">
                                     {session?.teams.map(team => (
                                         <li className="d-flex align-items-center py-2" key={team.id}>
-                                            <span className="bullet h-5px w-10px me-5"></span><h3 className='m-0'>{team.name} ({ team.league })</h3>
+                                            <span className="bullet h-5px w-10px me-5"></span><h3 className='m-0'>{team.name} ({team.league})</h3>
                                         </li>
                                     ))}
                                 </div>
@@ -55,7 +67,7 @@ const SessionDetail: React.FC<ISessionDetail> = ({ session }) => {
                 </div>
                 <div className="card card-custom col me-4">
                     <div className="card-body">
-                    <div className="d-flex flex-column">
+                        <div className="d-flex flex-column">
                             <h1>Financial Details</h1>
                             <div className="d-flex flex-column my-4">
                                 <p className="fs-5 m-0">Cost of Session</p>
@@ -77,7 +89,7 @@ const SessionDetail: React.FC<ISessionDetail> = ({ session }) => {
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
     )
 }
 

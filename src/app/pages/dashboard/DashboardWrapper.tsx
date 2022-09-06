@@ -52,14 +52,14 @@ const DashboardPage = () => {
       {/* end::Row  */}
       
       <KTCard>
-       <div className="card-body">
-        <FullCalendar
-              plugins={[ dayGridPlugin ]}
-              initialView="dayGridMonth"
-              // eventClick={handleEventClick}
-              events={data?.map(session => ({ title: session.name, date: session.date, id: session.id.toString() }))}
-          />
-       </div>
+        <div className="card-body">
+          <FullCalendar
+                plugins={[ dayGridPlugin ]}
+                initialView="dayGridMonth"
+                // eventClick={handleEventClick}
+                events={data?.map(session => ({ title: session.name, date: session.date, id: session.id.toString() }))}
+            />
+        </div>
       </KTCard>
            
       <div className="separator my-5"></div>

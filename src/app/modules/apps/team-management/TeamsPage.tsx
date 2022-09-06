@@ -3,6 +3,7 @@ import {PageLink, PageTitle} from '../../../../_metronic/layout/core'
 import {TeamsCreate} from './teams-create/TeamsCreate'
 import { TeamsEdit } from './teams-edit/TeamsEdit'
 import {TeamsListWrapper} from './teams-list/TeamsList'
+import TeamsView from './teams-view/TeamsView';
 
 const teamsBreadcrumb: Array<PageLink> = [
   {
@@ -47,6 +48,15 @@ const TeamsPage = () => {
             <>
               <PageTitle breadcrumbs={teamsBreadcrumb}>Edit Team</PageTitle>
               <TeamsEdit />
+            </>
+          }
+        />
+         <Route
+          path='teams/view/:id'
+          element={
+            <>
+              <PageTitle breadcrumbs={teamsBreadcrumb}>Team Detail</PageTitle>
+              <TeamsView />
             </>
           }
         />

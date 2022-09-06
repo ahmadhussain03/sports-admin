@@ -56,7 +56,7 @@ const UsersListPagination = () => {
                   key={link.label}
                   className={clsx('page-item', {
                     active: pagination.current_page === link.page,
-                    disabled: isLoading,
+                    disabled: isLoading || links().length <= 2,
                     previous: link.label === 'Previous',
                     next: link.label === 'Next',
                   })}

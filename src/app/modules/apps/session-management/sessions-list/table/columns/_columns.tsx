@@ -26,9 +26,9 @@ const sessionsColumn: ReadonlyArray<Column<Session>> = [
     accessor: 'location'
   },
   {
-    Header: (props) => <SessionCustomHeader tableProps={props} title='Notes' className='min-w-125px' />,
-    id: 'notes',
-    accessor: 'notes'
+    Header: (props) => <SessionCustomHeader tableProps={props} title='Price' className='min-w-125px' />,
+    id: 'price',
+    accessor: 'price'
   },
   {
     Header: (props) => (
