@@ -7,6 +7,7 @@ const API_URL = process.env.REACT_APP_API_URL
 
 const PLAYER_URL = `${API_URL}/player`
 const PLAYER_REQUEST_FROM = `${API_URL}/player_request`
+const PLAYER_PAYMENT_REQUEST = `${API_URL}/outstanding_payment`
 
 export async function getPlayer(id: string | number) {
     const response = await axios.get<Player>(PLAYER_URL + '/' + id)
@@ -15,4 +16,8 @@ export async function getPlayer(id: string | number) {
 
 export async function sendPlayerInformationFormRequest(data: { player: ID }) {
     return axios.post(PLAYER_REQUEST_FROM, data)
+}
+
+export async function sendPaymentRequest(player: ID) {
+    return axios.post(`${PLAYER_PAYMENT_REQUEST}/${player}`)
 }

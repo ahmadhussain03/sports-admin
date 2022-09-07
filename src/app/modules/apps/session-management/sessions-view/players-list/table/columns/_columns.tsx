@@ -1,15 +1,17 @@
-import {Column} from 'react-table'
-import {PlayerActionCell} from './PlayerActionsCell'
-import {TeamCustomHeader} from './TeamCustomHeader'
-import {Player} from '../../core/_models'
+import { Column } from 'react-table'
+import { PlayerActionCell } from './PlayerActionsCell'
+import { TeamCustomHeader } from './TeamCustomHeader'
+import { Player } from '../../core/_models'
 import { PlayerInfoCell } from './PlayerInfoCell'
 import { PlayerPaidCell } from './PlayerPaidCell'
+import { PlayerRsvpCell } from './PlayerRsvpCell'
+import { PlayerAttendanceCell } from './PlayerAttendanceCell'
 
 const playersColumns: ReadonlyArray<Column<Player>> = [
   {
     Header: (props) => <TeamCustomHeader tableProps={props} title='Name' className='min-w-125px' />,
     id: 'name',
-    Cell: ({...props}) => <PlayerInfoCell player={props.data[props.row.index]} />,
+    Cell: ({ ...props }) => <PlayerInfoCell player={props.data[props.row.index]} />,
   },
   {
     Header: (props) => <TeamCustomHeader tableProps={props} title='Phone Number' className='min-w-125px' />,
@@ -24,21 +26,28 @@ const playersColumns: ReadonlyArray<Column<Player>> = [
   {
     Header: (props) => <TeamCustomHeader isCenter={true} tableProps={props} title='RSVP' className='min-w-125px' />,
     id: 'rsvp',
-    accessor: 'pivot_rsvp'
+    accessor: 'pivot_rsvp',
+    Cell: ({ ...props }) => <PlayerRsvpCell player={props.data[props.row.index]} />
   },
   {
     Header: (props) => <TeamCustomHeader isCenter={true} tableProps={props} title='Paid' className='min-w-125px' />,
     id: 'paid',
     accessor: 'pivot_paid',
-    Cell: ({...props}) => <PlayerPaidCell player={props.data[props.row.index]} />
+    Cell: ({ ...props }) => <PlayerPaidCell player={props.data[props.row.index]} />
+  },
+  {
+    Header: (props) => <TeamCustomHeader isCenter={true} tableProps={props} title='Attendance' className='min-w-125px' />,
+    id: 'attendance',
+    accessor: 'pivot_attendance',
+    Cell: ({ ...props }) => <PlayerAttendanceCell player={props.data[props.row.index]} />
   },
   {
     Header: (props) => (
       <TeamCustomHeader tableProps={props} title='Actions' className='text-end min-w-100px' />
     ),
     id: 'actions',
-    Cell: ({...props}) => <PlayerActionCell player={props.data[props.row.index]} id={props.data[props.row.index].id} />,
+    Cell: ({ ...props }) => <PlayerActionCell player={props.data[props.row.index]} id={props.data[props.row.index].id} />,
   },
 ]
 
-export {playersColumns}
+export { playersColumns }

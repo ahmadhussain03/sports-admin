@@ -8,6 +8,7 @@ import { getError } from '../../../utils/helpers'
 import { useNavigate } from 'react-router-dom';
 import { updatePlaterInformation, validatePlayerCode } from '../core/_request'
 import { toast } from 'react-toastify';
+import { toAbsoluteUrl } from '../../../../_metronic/helpers'
 
 
 const initialValues: { firstName: string, lastName: string, phoneNumber: string, address: string | null, postCode: string | null, notes?: string, code: string } = {
@@ -23,6 +24,7 @@ const initialValues: { firstName: string, lastName: string, phoneNumber: string,
 export function PlayerInformationForm() {
     const [loading, setLoading] = useState(false)
     const [validating, setValidating] = useState(true)
+    const [isCompleted, setIsCompleted] = useState(false)
     const navigation = useNavigate()
 
     const formik = useFormik({
@@ -32,8 +34,7 @@ export function PlayerInformationForm() {
             try {
                 await updatePlaterInformation(values)
                 toast.success('Information Updated Successfully.')
-                navigation('/auth/login')
-
+                setIsCompleted(true)
             } catch (error: any) {
                 console.error(error.response)
                 if (error?.response?.status === 422 && error?.response?.data?.errors) {
@@ -79,6 +80,21 @@ export function PlayerInformationForm() {
 
     }, [])
 
+    if (isCompleted) {
+        return (
+            <div className="d-flex flex-column justify-content-center align-items-center">
+                <img
+                    alt='Logo'
+                    src={toAbsoluteUrl('/media/logos/default.png')}
+                    className='h-350px'
+                />
+                <div className='mb-lg-15 alert alert-success'>
+                    <div className='alert-text font-weight-bold'>Information Updated Successfully.</div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className={clsx({ 'overlay overlay-block': validating })}>
             <div className="overlay-layer bg-transparent"></div>
@@ -92,15 +108,6 @@ export function PlayerInformationForm() {
                     {/* begin::Title */}
                     <h1 className='text-dark mb-3'>Player Information Form</h1>
                     {/* end::Title */}
-
-                    {/* begin::Link */}
-                    <div className='text-gray-400 fw-bold fs-4'>
-                        Already have an account?
-                        <Link to='/auth/login' className='link-primary fw-bolder' style={{ marginLeft: '5px' }}>
-                            Sign In
-                        </Link>
-                    </div>
-                    {/* end::Link */}
                 </div>
                 {/* end::Heading */}
 

@@ -7,13 +7,14 @@ import FullCalendar, { EventClickArg } from '@fullcalendar/react' // must go bef
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { useState } from "react"
 import { toast } from 'react-toastify';
-import { sendPlayerInformationFormRequest } from "./core/_request"
+import { sendPlayerInformationFormRequest, sendPaymentRequest } from "./core/_request"
 
 const PlayersView = () => {
 
   const navigation = useNavigate()
   const { id } = useParams()
   const [loading, setLoading] = useState(false)
+  const [paymentLoading, setPaymentLoading] = useState(false)
 
   if (!id && id !== undefined) {
     navigation('/error/404')
@@ -39,6 +40,18 @@ const PlayersView = () => {
     }
   }
 
+  const sendPlayerPaymentRequest = async () => {
+    try {
+      setPaymentLoading(true)
+      await sendPaymentRequest(playerId)
+      toast.success('Payment Request Sent.')
+    } catch (e: any) {
+      toast.error('Something Went Wrong.')
+    } finally {
+      setPaymentLoading(false)
+    }
+  }
+
   if (isError) {
     navigation('/error/404')
   }
@@ -61,7 +74,7 @@ const PlayersView = () => {
       <div className="container">
         <div className="row">
           <div className="col d-flex items-center flex-col my-3">
-            <button type='button' className='btn btn-danger' onClick={() => navigation(-1)} >
+            <button type='button' className='btn btn-danger ms-2' onClick={() => navigation(-1)} >
               <KTSVG path='/media/icons/duotune/arrows/arr002.svg' className='svg-icon-3' />
               Back
             </button>
@@ -73,6 +86,20 @@ const PlayersView = () => {
             >
               {!loading && <span className='indicator-label'>Request Information Update</span>}
               {loading && (
+                <span className='indicator-progress' style={{ display: 'block' }}>
+                  Please wait...{' '}
+                  <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                </span>
+              )}
+            </button>
+            <button
+              type='button'
+              onClick={sendPlayerPaymentRequest}
+              className='btn btn-info mx-2 fs-7'
+              disabled={paymentLoading}
+            >
+              {!paymentLoading && <span className='indicator-label'>Send Payment Request</span>}
+              {paymentLoading && (
                 <span className='indicator-progress' style={{ display: 'block' }}>
                   Please wait...{' '}
                   <span className='spinner-border spinner-border-sm align-middle ms-2'></span>

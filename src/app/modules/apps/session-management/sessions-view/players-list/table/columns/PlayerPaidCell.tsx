@@ -4,7 +4,7 @@ import {useMutation, useQueryClient} from 'react-query'
 import {MenuComponent} from '../../../../../../../../_metronic/assets/ts/components'
 import {ID, KTSVG, QUERIES} from '../../../../../../../../_metronic/helpers'
 import {useQueryResponse} from '../../core/QueryResponseProvider'
-import {deletePlayer, markPaidSession} from '../../core/_requests'
+import {deletePlayer, updatePlayerSession} from '../../core/_requests'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Player } from '../../core/_models'
 
@@ -25,7 +25,7 @@ const PlayerPaidCell: FC<Props> = ({player}) => {
 
   const sessionId = queryId as string
 
-  const paySession = useMutation(() => markPaidSession(sessionId, player.id, { paid: true }), {
+  const paySession = useMutation(() => updatePlayerSession(sessionId, player.id, { paid: true }), {
     // 💡 response of the mutation is passed to onSuccess
     onSuccess: () => {
       // ✅ update detail view directly

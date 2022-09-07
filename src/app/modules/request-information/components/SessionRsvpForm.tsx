@@ -8,24 +8,26 @@ import { PasswordMeterComponent } from '../../../../_metronic/assets/ts/componen
 import { useAuth } from '../../auth/core/Auth'
 import { getError } from '../../../utils/helpers'
 import { useNavigate } from 'react-router-dom';
-import { registerInformation, validateCode } from '../core/_request'
+import { registerInformation, validateCode, verifyPlayer } from '../core/_request'
 import { toast } from 'react-toastify';
 import { ID, toAbsoluteUrl } from '../../../../_metronic/helpers'
 import { getSession } from './../core/_request';
 import { Session } from '../../apps/session-management/sessions-list/core/_models'
+import { Player } from '../../apps/player-management/players-list/core/_models'
+import { markAttendance } from './../core/_request';
 
 const initialValues = {
-    name: '',
-    username: '',
-    password: '',
-    password_confirmation: '',
-    code: '',
+    email: '',
+    firstName: '',
+    lastName: ''
 }
 
 export function SessionRsvpForm() {
     const [loading, setLoading] = useState(false)
     const [validating, setValidating] = useState(true)
     const [currentSession, setCurrentSession] = useState<Session>()
+    const [isPlayerVerified, setPlayerVerified] = useState<boolean>(false)
+    const [isCompleted, setIsCompleted] = useState<boolean>(false)
     const navigation = useNavigate()
 
     const formik = useFormik({
@@ -33,20 +35,18 @@ export function SessionRsvpForm() {
         onSubmit: async (values, { setStatus, setSubmitting, setFieldError }) => {
             setLoading(true)
             try {
-                await registerInformation(
-                    {
-                        name: values.name,
-                        password: values.password,
-                        password_confirmation: values.password_confirmation,
-                        username: values.username,
-                        code: values.code,
-                    }
-                )
-                toast.success('Information Added Successfully.')
-                navigation('/auth/login')
 
+                await verifyPlayer({
+                    ...values,
+                    sessionId: currentSession!.id
+                })
+                setPlayerVerified(true)
+                toast.success('Player Verified Successfully.')
+                setStatus('')
+                setLoading(false)
             } catch (error: any) {
-                console.error(error.response)
+                if (error.response?.data?.message)
+                    toast.error(error.response.data.message)
                 if (error?.response?.status === 422 && error?.response?.data?.errors) {
                     error.response.data.errors.map((e: any) => setFieldError(e.field, getError(error.response.data.errors, e.field)))
                 }
@@ -60,6 +60,19 @@ export function SessionRsvpForm() {
             }
         },
     })
+
+    const markRsvp = async (option: boolean) => {
+        setLoading(true)
+        try {
+            await markAttendance({ ...formik.values, sessionId: currentSession!.id, attendance: option })
+            toast.success('Attendance Marked Successfully.')
+            setIsCompleted(true)
+        } catch (e) {
+            toast.error('Something Went Wrong!')
+        } finally {
+            setLoading(false)
+        }
+    }
 
     useEffect(() => {
         const search = window.location.search;
@@ -89,6 +102,21 @@ export function SessionRsvpForm() {
                     className='h-350px'
                 />
                 Loading...
+            </div>
+        )
+    }
+
+    if (isCompleted) {
+        return (
+            <div className="d-flex flex-column justify-content-center align-items-center">
+                <img
+                    alt='Logo'
+                    src={toAbsoluteUrl('/media/logos/default.png')}
+                    className='h-350px'
+                />
+                <div className='mb-lg-15 alert alert-success'>
+                    <div className='alert-text font-weight-bold'>Attendance Marked Successfully.</div>
+                </div>
             </div>
         )
     }
@@ -133,137 +161,147 @@ export function SessionRsvpForm() {
                 </div>
                 {/* end::Form group */}
 
-                {/* begin::Form group Email */}
-                <div className='fv-row mb-7'>
-                    <label className='form-label fw-bolder text-dark fs-6'>Name</label>
-                    <input
-                        placeholder='Name'
-                        type='text'
-                        autoComplete='off'
-                        {...formik.getFieldProps('name')}
-                        className={clsx(
-                            'form-control form-control-lg form-control-solid',
-                            { 'is-invalid': formik.touched.name && formik.errors.name },
-                            {
-                                'is-valid': formik.touched.name && !formik.errors.name,
-                            }
-                        )}
-                    />
-                    {formik.touched.name && formik.errors.name && (
-                        <div className='fv-plugins-message-container'>
-                            <div className='fv-help-block'>
-                                <span role='alert'>{formik.errors.name}</span>
-                            </div>
-                        </div>
-                    )}
-                </div>
-                {/* end::Form group */}
-
-                {/* begin::Form group Username */}
-                <div className='fv-row mb-7'>
-                    <label className='form-label fw-bolder text-dark fs-6'>Username</label>
-                    <input
-                        placeholder='Username'
-                        type='text'
-                        autoComplete='off'
-                        {...formik.getFieldProps('username')}
-                        className={clsx(
-                            'form-control form-control-lg form-control-solid',
-                            { 'is-invalid': formik.touched.username && formik.errors.username },
-                            {
-                                'is-valid': formik.touched.username && !formik.errors.username,
-                            }
-                        )}
-                    />
-                    {formik.touched.username && formik.errors.username && (
-                        <div className='fv-plugins-message-container'>
-                            <div className='fv-help-block'>
-                                <span role='alert'>{formik.errors.username}</span>
-                            </div>
-                        </div>
-                    )}
-                </div>
-                {/* end::Form group */}
-
-                {/* begin::Form group Password */}
-                <div className='mb-7 fv-row' data-kt-password-meter='true'>
-                    <div className='mb-1'>
-                        <label className='form-label fw-bolder text-dark fs-6'>Password</label>
-                        <div className='position-relative mb-3'>
+                {!isPlayerVerified && (
+                    <>
+                        <div className='fv-row mb-7'>
+                            <label className='form-label fw-bolder text-dark fs-6'>Email</label>
                             <input
-                                type='password'
-                                placeholder='Password'
+                                placeholder='Email'
+                                type='text'
                                 autoComplete='off'
-                                {...formik.getFieldProps('password')}
+                                {...formik.getFieldProps('email')}
                                 className={clsx(
                                     'form-control form-control-lg form-control-solid',
+                                    { 'is-invalid': formik.touched.email && formik.errors.email },
                                     {
-                                        'is-invalid': formik.touched.password && formik.errors.password,
-                                    },
-                                    {
-                                        'is-valid': formik.touched.password && !formik.errors.password,
+                                        'is-valid': formik.touched.email && !formik.errors.email,
                                     }
                                 )}
                             />
-                            {formik.touched.password && formik.errors.password && (
+                            {formik.touched.email && formik.errors.email && (
                                 <div className='fv-plugins-message-container'>
                                     <div className='fv-help-block'>
-                                        <span role='alert'>{formik.errors.password}</span>
+                                        <span role='alert'>{formik.errors.email}</span>
                                     </div>
                                 </div>
                             )}
                         </div>
-                    </div>
-                </div>
-                {/* end::Form group */}
 
-                {/* begin::Form group Confirm password */}
-                <div className='fv-row mb-5'>
-                    <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
-                    <input
-                        type='password'
-                        placeholder='Password confirmation'
-                        autoComplete='off'
-                        {...formik.getFieldProps('password_confirmation')}
-                        className={clsx(
-                            'form-control form-control-lg form-control-solid',
-                            {
-                                'is-invalid': formik.touched.password_confirmation && formik.errors.password_confirmation,
-                            },
-                            {
-                                'is-valid': formik.touched.password_confirmation && !formik.errors.password_confirmation,
-                            }
-                        )}
-                    />
-                    {formik.touched.password_confirmation && formik.errors.password_confirmation && (
-                        <div className='fv-plugins-message-container'>
-                            <div className='fv-help-block'>
-                                <span role='alert'>{formik.errors.password_confirmation}</span>
+                        <div className='fv-row mb-7'>
+                            <label className='form-label fw-bolder text-dark fs-6'>First Name</label>
+                            <input
+                                placeholder='First Name'
+                                type='text'
+                                autoComplete='off'
+                                {...formik.getFieldProps('firstName')}
+                                className={clsx(
+                                    'form-control form-control-lg form-control-solid',
+                                    { 'is-invalid': formik.touched.firstName && formik.errors.firstName },
+                                    {
+                                        'is-valid': formik.touched.firstName && !formik.errors.firstName,
+                                    }
+                                )}
+                            />
+                            {formik.touched.firstName && formik.errors.firstName && (
+                                <div className='fv-plugins-message-container'>
+                                    <div className='fv-help-block'>
+                                        <span role='alert'>{formik.errors.firstName}</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className='fv-row mb-7'>
+                            <label className='form-label fw-bolder text-dark fs-6'>Last Name</label>
+                            <input
+                                placeholder='Last Name'
+                                type='text'
+                                autoComplete='off'
+                                {...formik.getFieldProps('lastName')}
+                                className={clsx(
+                                    'form-control form-control-lg form-control-solid',
+                                    { 'is-invalid': formik.touched.lastName && formik.errors.lastName },
+                                    {
+                                        'is-valid': formik.touched.lastName && !formik.errors.lastName,
+                                    }
+                                )}
+                            />
+                            {formik.touched.lastName && formik.errors.lastName && (
+                                <div className='fv-plugins-message-container'>
+                                    <div className='fv-help-block'>
+                                        <span role='alert'>{formik.errors.lastName}</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* begin::Form group */}
+                        <div className='text-center'>
+                            <button
+                                type='submit'
+                                id='kt_sign_up_submit'
+                                className='btn btn-lg btn-primary w-100 mb-5'
+                                disabled={formik.isSubmitting || !formik.isValid}
+                            >
+                                {!loading && <span className='indicator-label'>Verify</span>}
+                                {loading && (
+                                    <span className='indicator-progress' style={{ display: 'block' }}>
+                                        Please wait...{' '}
+                                        <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                                    </span>
+                                )}
+                            </button>
+                        </div>
+                        {/* end::Form group */}
+                    </>
+                )
+                }
+                {!!isPlayerVerified && (
+                    <>
+                        {/* begin::Form group Email */}
+                        <div className='fv-row mb-7'>
+                            <label className='form-label fw-bolder text-dark fs-6'>Email</label>
+                            <h3>{formik.values.email}</h3>
+                        </div>
+                        {/* end::Form group */}
+                        {/* begin::Form group Email */}
+                        <div className='fv-row mb-7'>
+                            <label className='form-label fw-bolder text-dark fs-6'>First Name</label>
+                            <h3>{formik.values.firstName}</h3>
+                        </div>
+                        {/* end::Form group */}
+                        {/* begin::Form group Email */}
+                        <div className='fv-row mb-7'>
+                            <label className='form-label fw-bolder text-dark fs-6'>Last Name</label>
+                            <h3>{formik.values.lastName}</h3>
+                        </div>
+                        {/* end::Form group */}
+                        {/* begin::Form group Email */}
+                        <div className='fv-row mb-7'>
+                            <label className='form-label fw-bolder text-dark fs-6'>Confirm Attendance</label>
+                            <div className='d-flex items-center'>
+                                <a style={{ cursor: 'pointer' }} onClick={() => markRsvp(true)} className="btn btn-icon btn-success mx-2">
+                                    {!loading && <i className="fa fa-check fs-2"></i>}
+                                    {!!loading && (
+                                        <span className='indicator-progress' style={{ display: 'block' }}>
+                                            <span className='spinner-border spinner-border-sm align-middle'></span>
+                                        </span>
+                                    )}
+                                </a>
+                                <a style={{ cursor: 'pointer' }} onClick={() => markRsvp(false)} className="btn btn-icon btn-success mx-2">
+                                    {!loading && <i className="fa fa-remove fs-2"></i>}
+                                    {!!loading && (
+                                        <span className='indicator-progress' style={{ display: 'block' }}>
+                                            <span className='spinner-border spinner-border-sm align-middle'></span>
+                                        </span>
+                                    )}
+                                </a>
                             </div>
                         </div>
-                    )}
-                </div>
-                {/* end::Form group */}
-
-                {/* begin::Form group */}
-                <div className='text-center'>
-                    <button
-                        type='submit'
-                        id='kt_sign_up_submit'
-                        className='btn btn-lg btn-primary w-100 mb-5'
-                        disabled={formik.isSubmitting || !formik.isValid}
-                    >
-                        {!loading && <span className='indicator-label'>Submit</span>}
-                        {loading && (
-                            <span className='indicator-progress' style={{ display: 'block' }}>
-                                Please wait...{' '}
-                                <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
-                            </span>
-                        )}
-                    </button>
-                </div>
-                {/* end::Form group */}
-            </form>
-        </div>
+                        {/* end::Form group */}
+                    </>
+                )}
+            </form >
+        </div >
     )
 }
