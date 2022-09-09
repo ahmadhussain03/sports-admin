@@ -1,4 +1,4 @@
-import {ID, Response} from '../../../../../../_metronic/helpers'
+import { ID, Response } from '../../../../../../_metronic/helpers'
 import { Session } from '../../../session-management/sessions-list/core/_models'
 import { Team } from '../../../team-management/teams-list/core/_models'
 
@@ -22,6 +22,7 @@ export interface Player {
   attended_count: number,
   session_outstanding_count: number,
   payment_outstanding_count: number,
+  payment_made: number,
   sessions?: Session[]
 }
 

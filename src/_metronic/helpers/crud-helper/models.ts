@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction} from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
 export type ID = undefined | null | number | string
 
@@ -18,7 +18,7 @@ export type SortState = {
 }
 
 export type FilterState = {
-  filter?: unknown
+  filter?: any
 }
 
 export type SearchState = {
@@ -53,7 +53,7 @@ export const initialQueryState: QueryState = {
 
 export const initialQueryRequest: QueryRequestContextProps = {
   state: initialQueryState,
-  updateState: () => {},
+  updateState: () => { },
 }
 
 export type QueryResponseContextProps<T> = {
@@ -63,7 +63,7 @@ export type QueryResponseContextProps<T> = {
   query: string
 }
 
-export const initialQueryResponse = {refetch: () => {}, isLoading: false, query: ''}
+export const initialQueryResponse = { refetch: () => { }, isLoading: false, query: '' }
 
 export type ListViewContextProps = {
   selected: Array<ID>
@@ -81,10 +81,10 @@ export type ListViewContextProps = {
 
 export const initialListView: ListViewContextProps = {
   selected: [],
-  onSelect: () => {},
-  onSelectAll: () => {},
-  clearSelected: () => {},
-  setItemIdForUpdate: () => {},
+  onSelect: () => { },
+  onSelectAll: () => { },
+  clearSelected: () => { },
+  setItemIdForUpdate: () => { },
   isAllSelected: false,
   disabled: false,
 }

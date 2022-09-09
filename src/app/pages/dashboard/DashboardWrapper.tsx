@@ -118,13 +118,13 @@ const DashboardPage = () => {
               </a>
               {/* end::Col */}
               {/* begin::Col */}
-              <a onClick={() => navigate('/user-management/users')} className='col bg-light-success px-6 py-8 rounded-2' style={{ cursor: 'pointer' }}>
+              <a onClick={() => navigate('/finance-management/finances')} className='col bg-light-success px-6 py-8 rounded-2' style={{ cursor: 'pointer' }}>
                 <KTSVG
-                  path='/media/icons/duotune/communication/com006.svg'
+                  path='/media/icons/duotune/graphs/gra004.svg'
                   className='svg-icon-3x svg-icon-success d-block my-2'
                 />
                 <span className='text-success fw-semibold fs-6 mt-2'>
-                  Users
+                  Finances
                 </span>
               </a>
               {/* end::Col */}

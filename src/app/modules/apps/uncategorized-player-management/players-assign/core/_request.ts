@@ -6,6 +6,8 @@ const API_URL = process.env.REACT_APP_API_URL
 const UNCATEGORIZED_PLAYER_URL = `${API_URL}/uncategorized_player`
 const PLAYER_ASSIGN_URL = `${API_URL}/team/player/assign`
 const TEAM_URL = `${API_URL}/team`
+const PLAYER_URL = `${API_URL}/player`
+const SESSION_URL = `${API_URL}/session`
 
 export interface PlayerAssignPayload {
     team: string,
@@ -24,6 +26,19 @@ export function getUncategorizedPlayers(search: string, page: string) {
 
 export function getTeams(search: string, page: string) {
     return axios.get(TEAM_URL, {
+        params: { search: search, current_page: page }
+    })
+}
+
+
+export function getAllPLayers(search: string, page: string) {
+    return axios.get(PLAYER_URL, {
+        params: { search: search, current_page: page }
+    })
+}
+
+export function getAllSessions(search: string, page: string) {
+    return axios.get(SESSION_URL, {
         params: { search: search, current_page: page }
     })
 }

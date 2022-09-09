@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-target-blank */
-import {useIntl} from 'react-intl'
-import {AsideMenuItemWithSubMain} from './AsideMenuItemWithSubMain'
-import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
-import {AsideMenuItem} from './AsideMenuItem'
+import { useIntl } from 'react-intl'
+import { AsideMenuItemWithSubMain } from './AsideMenuItemWithSubMain'
+import { AsideMenuItemWithSub } from './AsideMenuItemWithSub'
+import { AsideMenuItem } from './AsideMenuItem'
 import { useAuth } from '../../../../app/modules/auth'
 import { KTSVG } from '../../../helpers/components/KTSVG'
 
@@ -13,9 +13,9 @@ export function AsideMenuMain() {
     <>
       <AsideMenuItem
         to='/dashboard'
-        title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
+        title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
         fontIcon='bi-bar-chart-line'
-        bsTitle={intl.formatMessage({id: 'MENU.DASHBOARD'})}
+        bsTitle={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
         className='py-3'
       />
       {/* <AsideMenuItem
@@ -161,7 +161,7 @@ export function AsideMenuMain() {
       </AsideMenuItemWithSubMain> */}
 
       {currentUser?.user_type === 'Owner' && (
-         <AsideMenuItem
+        <AsideMenuItem
           to='/user-management/users'
           title='User management'
           fontIcon='bi-people'
@@ -192,6 +192,14 @@ export function AsideMenuMain() {
         title='Session Management'
         icon='/media/icons/duotune/maps/map001.svg'
         bsTitle='Session management'
+        className='py-3'
+      />
+
+      <AsideMenuItem
+        to='/finance-management/finances'
+        title='Finance Management'
+        icon='/media/icons/duotune/graphs/gra004.svg'
+        bsTitle='Finance management'
         className='py-3'
       />
       {/* <AsideMenuItem
