@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {useIntl} from 'react-intl'
 import {KTCard, KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 import {PageTitle} from '../../../_metronic/layout/core'
@@ -6,15 +6,26 @@ import {useNavigate} from 'react-router-dom'
 import {useUpcomingSession} from '../../modules/apps/session-management/sessions-calendar/core/_hook'
 import FullCalendar, {EventClickArg} from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
+import axios from 'axios'
+const API_URL = process.env.REACT_APP_API_URL
 
 const DashboardPage = () => {
   const navigate = useNavigate()
 
   const {data, isLoading} = useUpcomingSession()
+  let [stats, setStats] = useState({players: 0, sessions: 0, teams: 0})
 
   useEffect(() => {
     // We have to show toolbar only for dashboard page
     document.getElementById('kt_layout_toolbar')?.classList.remove('d-none')
+    axios
+      .get(`${API_URL}/users/stats`)
+      .then((res) => {
+        setStats(res.data)
+      })
+      .catch((err) => {
+        setStats({players: 0, sessions: 0, teams: 0})
+      })
     return () => {
       document.getElementById('kt_layout_toolbar')?.classList.add('d-none')
     }
@@ -70,11 +81,23 @@ const DashboardPage = () => {
                     className='col bg-light-warning px-6 py-8 rounded-2 me-7 mb-7'
                     style={{cursor: 'pointer'}}
                   >
-                    <KTSVG
-                      path='/media/icons/duotune/communication/com013.svg'
-                      className='svg-icon-3x svg-icon-warning d-block my-2'
-                    />
-                    <span className='text-warning fw-semibold fs-6'>Players</span>
+                    <div className='flex flex-row'>
+                      <div className='flex flex-column'>
+                        <KTSVG
+                          path='/media/icons/duotune/communication/com013.svg'
+                          className='svg-icon-3x svg-icon-warning d-block my-2'
+                        />
+                        <span className='text-warning fw-semibold fs-6'>Players</span>
+                      </div>
+                      <div>
+                        <span
+                          className='text-warning fw-bold fs-6 float-right'
+                          style={{float: 'right'}}
+                        >
+                          {stats.players}
+                        </span>
+                      </div>
+                    </div>
                   </a>
                   {/* end::Col */}
                   {/* begin::Col */}
@@ -83,11 +106,23 @@ const DashboardPage = () => {
                     className='col bg-light-primary px-6 py-8 rounded-2 mb-7'
                     style={{cursor: 'pointer'}}
                   >
-                    <KTSVG
-                      path='/media/icons/duotune/communication/com014.svg'
-                      className='svg-icon-3x svg-icon-primary d-block my-2'
-                    />
-                    <span className='text-primary fw-semibold fs-6'>Teams</span>
+                    <div className='flex flex-row'>
+                      <div className='flex flex-column'>
+                        <KTSVG
+                          path='/media/icons/duotune/communication/com014.svg'
+                          className='svg-icon-3x svg-icon-primary d-block my-2'
+                        />
+                        <span className='text-primary fw-semibold fs-6'>Teams</span>
+                      </div>
+                      <div>
+                        <span
+                          className='text-primary fw-bold fs-6 float-right'
+                          style={{float: 'right'}}
+                        >
+                          {stats.teams}
+                        </span>
+                      </div>
+                    </div>
                   </a>
                   {/* end::Col */}
                 </div>
@@ -100,11 +135,23 @@ const DashboardPage = () => {
                     className='col bg-light-danger px-6 py-8 rounded-2 me-7'
                     style={{cursor: 'pointer'}}
                   >
-                    <KTSVG
-                      path='/media/icons/duotune/maps/map001.svg'
-                      className='svg-icon-3x svg-icon-danger d-block my-2'
-                    />
-                    <span className='text-danger fw-semibold fs-6 mt-2'>Sessions</span>
+                    <div className='flex flex-row'>
+                      <div className='flex flex-column'>
+                        <KTSVG
+                          path='/media/icons/duotune/maps/map001.svg'
+                          className='svg-icon-3x svg-icon-danger d-block my-2'
+                        />
+                        <span className='text-danger fw-semibold fs-6'>Sessions</span>
+                      </div>
+                      <div>
+                        <span
+                          className='text-danger fw-bold fs-6 float-right'
+                          style={{float: 'right'}}
+                        >
+                          {stats.sessions}
+                        </span>
+                      </div>
+                    </div>
                   </a>
                   {/* end::Col */}
                   {/* begin::Col */}
