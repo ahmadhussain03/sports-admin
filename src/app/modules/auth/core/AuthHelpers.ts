@@ -1,6 +1,7 @@
 import {AuthModel} from './_models'
 
 const AUTH_LOCAL_STORAGE_KEY = 'auth-key'
+const AUTH_LOCAL_STORAGE_TOKEN = 'auth-token'
 const getAuth = (): AuthModel | undefined => {
   if (!localStorage) {
     return
@@ -30,6 +31,7 @@ const setAuth = (auth: AuthModel) => {
   try {
     const lsValue = JSON.stringify(auth)
     localStorage.setItem(AUTH_LOCAL_STORAGE_KEY, lsValue)
+    localStorage.setItem(AUTH_LOCAL_STORAGE_TOKEN, auth?.token?.token)
   } catch (error) {
     console.error('AUTH LOCAL STORAGE SAVE ERROR', error)
   }

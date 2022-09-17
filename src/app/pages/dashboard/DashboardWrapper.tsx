@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import {useIntl} from 'react-intl'
 import {KTCard, KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
+import * as Icons from './Icons'
 import {PageTitle} from '../../../_metronic/layout/core'
 import {useNavigate} from 'react-router-dom'
 import {useUpcomingSession} from '../../modules/apps/session-management/sessions-calendar/core/_hook'
@@ -19,7 +20,11 @@ const DashboardPage = () => {
     // We have to show toolbar only for dashboard page
     document.getElementById('kt_layout_toolbar')?.classList.remove('d-none')
     axios
-      .get(`${API_URL}/users/stats`)
+      .get(`${API_URL}/users/stats`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('auth-token')}`,
+        },
+      })
       .then((res) => {
         setStats(res.data)
       })
@@ -82,21 +87,18 @@ const DashboardPage = () => {
                     style={{cursor: 'pointer'}}
                   >
                     <div className='flex flex-row'>
-                      <div className='flex flex-column'>
+                      <span className='flex flex-column'>
                         <KTSVG
                           path='/media/icons/duotune/communication/com013.svg'
                           className='svg-icon-3x svg-icon-warning d-block my-2'
                         />
                         <span className='text-warning fw-semibold fs-6'>Players</span>
-                      </div>
-                      <div>
-                        <span
-                          className='text-warning fw-bold fs-6 float-right'
-                          style={{float: 'right'}}
-                        >
+                      </span>
+                      <span>
+                        <h1 className='text-warning ' style={{float: 'right'}}>
                           {stats.players}
-                        </span>
-                      </div>
+                        </h1>
+                      </span>
                     </div>
                   </a>
                   {/* end::Col */}
@@ -107,21 +109,18 @@ const DashboardPage = () => {
                     style={{cursor: 'pointer'}}
                   >
                     <div className='flex flex-row'>
-                      <div className='flex flex-column'>
+                      <span className='flex flex-column'>
                         <KTSVG
                           path='/media/icons/duotune/communication/com014.svg'
                           className='svg-icon-3x svg-icon-primary d-block my-2'
                         />
                         <span className='text-primary fw-semibold fs-6'>Teams</span>
-                      </div>
-                      <div>
-                        <span
-                          className='text-primary fw-bold fs-6 float-right'
-                          style={{float: 'right'}}
-                        >
+                      </span>
+                      <span>
+                        <h1 className='text-primary fw-bold' style={{float: 'right'}}>
                           {stats.teams}
-                        </span>
-                      </div>
+                        </h1>
+                      </span>
                     </div>
                   </a>
                   {/* end::Col */}
@@ -136,21 +135,18 @@ const DashboardPage = () => {
                     style={{cursor: 'pointer'}}
                   >
                     <div className='flex flex-row'>
-                      <div className='flex flex-column'>
+                      <span className='flex flex-column'>
                         <KTSVG
                           path='/media/icons/duotune/maps/map001.svg'
                           className='svg-icon-3x svg-icon-danger d-block my-2'
                         />
                         <span className='text-danger fw-semibold fs-6'>Sessions</span>
-                      </div>
-                      <div>
-                        <span
-                          className='text-danger fw-bold fs-6 float-right'
-                          style={{float: 'right'}}
-                        >
+                      </span>
+                      <span>
+                        <h1 className='text-danger' style={{float: 'right'}}>
                           {stats.sessions}
-                        </span>
-                      </div>
+                        </h1>
+                      </span>
                     </div>
                   </a>
                   {/* end::Col */}
