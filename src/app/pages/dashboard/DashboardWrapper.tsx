@@ -8,6 +8,7 @@ import {useUpcomingSession} from '../../modules/apps/session-management/sessions
 import FullCalendar, {EventClickArg} from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
 import axios from 'axios'
+import Logo from './Icons/default-1.png'
 const API_URL = process.env.REACT_APP_API_URL
 
 const DashboardPage = () => {
@@ -49,6 +50,10 @@ const DashboardPage = () => {
     )
   }
 
+  const redirectAddSession = () => {
+    navigate('/session-management/sessions/create')
+  }
+
   return (
     <>
       {/* begin::Row  */}
@@ -66,6 +71,20 @@ const DashboardPage = () => {
       {/* </div> */}
       {/* end::Row  */}
       <div className='row'>
+        <div className='col-md-6 col-sm-12 my-2'>
+          <img src={Logo} width={200} height={80}></img>
+        </div>
+        <div className='col-md-6 col-sm-12 my-2'>
+          <button
+            type='button'
+            className='btn btn-primary'
+            onClick={redirectAddSession}
+            style={{float: 'right'}}
+          >
+            <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
+            Add Session
+          </button>
+        </div>
         <div className='col-md-6 col-sm-12'>
           {' '}
           <div className={`card card-xl-stretch mb-xl-12`}>

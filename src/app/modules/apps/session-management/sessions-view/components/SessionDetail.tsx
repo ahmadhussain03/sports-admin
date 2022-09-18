@@ -33,15 +33,6 @@ const SessionDetail: React.FC<ISessionDetail> = ({session}) => {
                 <p className='fs-5 m-0'>Session Price</p>
                 <h3 className='m-0'>{session.price}</h3>
               </div>
-              <div className='d-flex flex-column my-4'>
-                <p className='fs-5 m-0'>Session Link</p>
-                <h3 className='m-0'>
-                  http://admin.squadstm.co.uk/request/session?session={session.id}
-                </h3>
-                <a href='https://web.whatsapp.com' target='_blank' className='btn btn-outline-success mt-2'>
-                  Open Whatsapp
-                </a>
-              </div>
               {!!session.notes && (
                 <div className='d-flex flex-column my-4'>
                   <p className='fs-5 m-0'>Notes</p>
@@ -72,6 +63,16 @@ const SessionDetail: React.FC<ISessionDetail> = ({session}) => {
                     </li>
                   ))}
                 </div>
+              </div>
+              <div className='d-flex flex-column my-4'>
+                <a
+                  href={`whatsapp://send?text=http://admin.squadstm.co.uk/request/session?session=${session.id}`}
+                  data-action='share/whatsapp/share'
+                  target='_blank'
+                  className='btn btn-outline-success mt-2'
+                >
+                  Share Link to Whatsapp
+                </a>
               </div>
             </div>
           </div>
