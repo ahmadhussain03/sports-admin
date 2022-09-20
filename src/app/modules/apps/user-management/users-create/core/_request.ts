@@ -6,7 +6,8 @@ const API_URL = process.env.REACT_APP_API_URL
 const USER_URL = `${API_URL}/users`
 
 export interface CreateUserPayload {
-    name: string,
+    firstName: string,
+    lastName: string,
     email: string,
     username: string,
     password: string,

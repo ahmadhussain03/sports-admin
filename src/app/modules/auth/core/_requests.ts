@@ -11,7 +11,8 @@ export const PASSWORD_RESET_URL = `${API_URL}/password_reset`
 export const LOGOUT_URL = `${API_URL}/logout`
 
 export interface RegisterPayload {
-  name: string,
+  firstName: string,
+  lastName: string,
   email: string,
   username: string,
   password: string,

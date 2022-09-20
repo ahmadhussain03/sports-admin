@@ -16,7 +16,8 @@ export const PLAYER_VERIFY_URL = `${API_URL}/verify-player`
 export const ATTENDANCE_URL = `${API_URL}/player-rsvp`
 
 export interface RegisterInformationPayload {
-    name: string,
+    firstName: string,
+    lastName: string,
     username: string,
     password: string,
     password_confirmation: string,

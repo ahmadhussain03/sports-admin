@@ -7,7 +7,8 @@ import { createUser } from './core/_request';
 import { useNavigate } from 'react-router-dom';
 
 const initialValues = {
-  name: '',
+  firstName: '',
+  lastName: '',
   email: '',
   username: '',
   password: '',
@@ -80,24 +81,49 @@ const UsersCreate = () => {
               )}
               {/* begin::Form group Name */}
               <div className='fv-row mb-5'>
-                <label className='form-label fw-bolder text-dark fs-7'>Name</label>
+                <label className='form-label fw-bolder text-dark fs-7'>First Name</label>
                 <input
-                  placeholder='Name'
+                  placeholder='First Name'
                   type='text'
                   autoComplete='off'
-                  {...formik.getFieldProps('name')}
+                  {...formik.getFieldProps('firstName')}
                   className={clsx(
                     'form-control form-control-lg form-control fs-7',
-                    {'is-invalid': formik.touched.name && formik.errors.name},
+                    {'is-invalid': formik.touched.firstName && formik.errors.firstName},
                     {
-                      'is-valid': formik.touched.name && !formik.errors.name,
+                      'is-valid': formik.touched.firstName && !formik.errors.firstName,
                     }
                   )}
                 />
-                {formik.touched.name && formik.errors.name && (
+                {formik.touched.firstName && formik.errors.firstName && (
                   <div className='fv-plugins-message-container'>
                     <div className='fv-help-block'>
-                      <span role='alert'>{formik.errors.name}</span>
+                      <span role='alert'>{formik.errors.firstName}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* end::Form group */}
+              {/* begin::Form group Name */}
+              <div className='fv-row mb-5'>
+                <label className='form-label fw-bolder text-dark fs-7'>Last Name</label>
+                <input
+                  placeholder='Last Name'
+                  type='text'
+                  autoComplete='off'
+                  {...formik.getFieldProps('lastName')}
+                  className={clsx(
+                    'form-control form-control-lg form-control fs-7',
+                    {'is-invalid': formik.touched.lastName && formik.errors.lastName},
+                    {
+                      'is-valid': formik.touched.lastName && !formik.errors.lastName,
+                    }
+                  )}
+                />
+                {formik.touched.lastName && formik.errors.lastName && (
+                  <div className='fv-plugins-message-container'>
+                    <div className='fv-help-block'>
+                      <span role='alert'>{formik.errors.lastName}</span>
                     </div>
                   </div>
                 )}

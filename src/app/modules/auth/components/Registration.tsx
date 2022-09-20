@@ -11,7 +11,8 @@ import {useAuth} from '../core/Auth'
 import { getError } from '../../../utils/helpers'
 
 const initialValues = {
-  name: '',
+  firstName: '',
+  lastName: '',
   email: '',
   username: '',
   password: '',
@@ -31,7 +32,8 @@ export function Registration() {
           {
             clubName: values.clubName,
             email: values.email,
-            name: values.name,
+            firstName: values.firstName,
+            lastName: values.lastName,
             password: values.password,
             password_confirmation: values.password_confirmation,
             username: values.username
@@ -92,24 +94,50 @@ export function Registration() {
 
       {/* begin::Form group Email */}
       <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>Name</label>
+        <label className='form-label fw-bolder text-dark fs-6'>First Name</label>
         <input
-          placeholder='Name'
+          placeholder='First Name'
           type='text'
           autoComplete='off'
-          {...formik.getFieldProps('name')}
+          {...formik.getFieldProps('firstName')}
           className={clsx(
             'form-control form-control-lg form-control-solid',
-            {'is-invalid': formik.touched.name && formik.errors.name},
+            {'is-invalid': formik.touched.firstName && formik.errors.firstName},
             {
-              'is-valid': formik.touched.name && !formik.errors.name,
+              'is-valid': formik.touched.firstName && !formik.errors.firstName,
             }
           )}
         />
-        {formik.touched.name && formik.errors.name && (
+        {formik.touched.firstName && formik.errors.firstName && (
           <div className='fv-plugins-message-container'>
             <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.name}</span>
+              <span role='alert'>{formik.errors.firstName}</span>
+            </div>
+          </div>
+        )}
+      </div>
+      {/* end::Form group */}
+
+       {/* begin::Form group Email */}
+      <div className='fv-row mb-7'>
+        <label className='form-label fw-bolder text-dark fs-6'>Last Name</label>
+        <input
+          placeholder='Last Name'
+          type='text'
+          autoComplete='off'
+          {...formik.getFieldProps('lastName')}
+          className={clsx(
+            'form-control form-control-lg form-control-solid',
+            {'is-invalid': formik.touched.lastName && formik.errors.lastName},
+            {
+              'is-valid': formik.touched.lastName && !formik.errors.lastName,
+            }
+          )}
+        />
+        {formik.touched.lastName && formik.errors.lastName && (
+          <div className='fv-plugins-message-container'>
+            <div className='fv-help-block'>
+              <span role='alert'>{formik.errors.lastName}</span>
             </div>
           </div>
         )}

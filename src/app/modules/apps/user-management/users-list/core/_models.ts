@@ -10,7 +10,8 @@ export interface User {
   username: string
   password: string | undefined
   email: string
-  name: string
+  first_name: string
+  last_name: string
   user_type: string
   email_verified_at: string | null
   club_id: number

@@ -47,7 +47,7 @@ const UsersPage = () => {
           path='users/edit/:id'
           element={
             <>
-              <PageTitle breadcrumbs={usersBreadcrumbs}>Create Users</PageTitle>
+              <PageTitle breadcrumbs={usersBreadcrumbs}>Edit User</PageTitle>
               <UsersEdit />
             </>
           }

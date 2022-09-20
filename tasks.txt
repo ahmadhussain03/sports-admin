@@ -1,8 +1,8 @@
-1. Link from the RSVP email is not working for new sessions.
+//1. Link from the RSVP email is not working for new sessions.
 //2. Add a create session button on the dashboard page
 //3. The share button only opens Whatsapp Web and does not share the link - the share button need to share the link
 //4. Add the Logo into the Dashboard at the top
-5. Not getting a verification email on signing up
-6. Sign up page - add surname
-7. When pressing paid for a session there is no way to undo payment if pressed by mistake(add confirmation dialog)
+//5. Not getting a verification email on signing up
+//6. Sign up page - add surname
+//7. When pressing paid for a session there is no way to undo payment if pressed by mistake(add confirmation dialog)
 8. Request payment for players from the sessions? not only from the finance section?

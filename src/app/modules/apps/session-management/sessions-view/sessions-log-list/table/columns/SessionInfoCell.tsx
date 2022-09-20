@@ -15,7 +15,7 @@ const SessionInfoCell: FC<Props> = ({ sessionLog }) => {
       {/* begin:: Avatar */}
       <div className='d-flex flex-column'>
         <a href='#' className='text-gray-800 text-hover-primary mb-1'>
-          {sessionLog.user.name}
+          {sessionLog.user.first_name} {sessionLog.user.last_name}
         </a>
       </div>
     </div>
