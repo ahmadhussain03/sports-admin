@@ -66,7 +66,7 @@ const SessionDetail: React.FC<ISessionDetail> = ({session}) => {
               </div>
               <div className='d-flex flex-column my-4'>
                 <a
-                  href={`whatsapp://send?text=http://admin.squadstm.co.uk/request/session?session=${session.id}`}
+                  href={`https://wa.me/?text=http://admin.squadstm.co.uk/request/session?session=${session.id}`}
                   data-action='share/whatsapp/share'
                   target='_blank'
                   className='btn btn-outline-success mt-2'
