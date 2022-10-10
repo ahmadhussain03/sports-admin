@@ -18,7 +18,8 @@ export interface Session {
   teams: Team[]
   players?: Player[],
   player_count: number,
-  player_unpaid_count: number
+  player_unpaid_count: number,
+  player_responded_count: number
 }
 
 export type SessionsResponseQuery = Response<Array<Session>>

@@ -8,6 +8,18 @@ type Props = {
 
 const PlayerRsvpCell: FC<Props> = ({ player }) => {
 
+    if(player.pivot_rsvp === null) {
+        return (
+              <>
+            {/* begin::Add user */}
+            <div className='d-flex flex-column align-items-center'>
+                <span className="badge badge-warning">PENDING</span>
+            </div>
+            {/* end::Add user */}
+        </>
+        )
+    }
+
     return (
         <>
             {/* begin::Add user */}

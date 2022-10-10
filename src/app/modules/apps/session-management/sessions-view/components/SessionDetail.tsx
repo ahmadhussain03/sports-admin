@@ -69,7 +69,7 @@ const SessionDetail: React.FC<ISessionDetail> = ({session}) => {
                   href={`https://wa.me/?text=http://admin.squadstm.co.uk/request/session?session=${session.id}`}
                   data-action='share/whatsapp/share'
                   target='_blank'
-                  className='btn btn-outline-success mt-2'
+                  className='btn btn-outline-success mt-2' rel="noreferrer"
                 >
                   Share Link to Whatsapp
                 </a>
@@ -96,6 +96,10 @@ const SessionDetail: React.FC<ISessionDetail> = ({session}) => {
               <div className='d-flex flex-column my-4'>
                 <p className='fs-5 m-0'># Players Un-Paid</p>
                 <h3 className='m-0'>{session.player_unpaid_count}</h3>
+              </div>
+               <div className='d-flex flex-column my-4'>
+                <p className='fs-5 m-0'># Players Responded</p>
+                <h3 className='m-0'>{session.player_responded_count}</h3>
               </div>
             </div>
           </div>
