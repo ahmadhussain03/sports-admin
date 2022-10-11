@@ -3,9 +3,9 @@ import {useEffect} from 'react'
 import {Navigate, Outlet, Route, Routes} from 'react-router-dom'
 import {toAbsoluteUrl} from '../../../_metronic/helpers'
 import { useAuth } from '../auth'
-import { EmailVerification } from './components/EmailVerification'
+import { CreateClub } from './components/CreateClub'
 
-const EmailVerificationLayout = () => {
+const ClubLayout = () => {
 
   const {logout} = useAuth()
 
@@ -27,7 +27,7 @@ const EmailVerificationLayout = () => {
       <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
         {/* begin::Logo */}
         <a href='#' className='mb-12'>
-          <img alt='Logo' src={toAbsoluteUrl('/media/logos/default-1.png')} className='h-125px' />
+          <img alt='Logo' src={toAbsoluteUrl('/media/logos/default-1.png')} className='h-125px'  />
         </a>
         {/* end::Logo */}
         {/* begin::Wrapper */}
@@ -50,13 +50,13 @@ const EmailVerificationLayout = () => {
   )
 }
 
-const EmailPage = () => (
+const ClubPage = () => (
   <Routes>
-    <Route element={<EmailVerificationLayout />}>
-      <Route index element={<EmailVerification />} />
+    <Route element={<ClubLayout />}>
+      <Route index element={<CreateClub />} />
       <Route path='*' element={<Navigate to='/error/404' />} />
     </Route>
   </Routes>
 )
 
-export {EmailPage}
+export {ClubPage}

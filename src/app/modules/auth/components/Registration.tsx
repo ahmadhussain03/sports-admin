@@ -1,12 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {useFormik} from 'formik'
-import * as Yup from 'yup'
 import clsx from 'clsx'
-import {getUserByToken, register} from '../core/_requests'
+import {register} from '../core/_requests'
 import {Link} from 'react-router-dom'
-import {toAbsoluteUrl} from '../../../../_metronic/helpers'
-import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
 import {useAuth} from '../core/Auth'
 import { getError } from '../../../utils/helpers'
 
@@ -18,6 +15,7 @@ const initialValues = {
   password: '',
   password_confirmation: '',
   clubName: '',
+  clubCode: '',
 }
 
 export function Registration() {
@@ -31,6 +29,7 @@ export function Registration() {
         const {data: auth} = await register(
           {
             clubName: values.clubName,
+            clubCode: values.clubCode,
             email: values.email,
             firstName: values.firstName,
             lastName: values.lastName,
@@ -58,10 +57,6 @@ export function Registration() {
     },
   })
 
-  useEffect(() => {
-    PasswordMeterComponent.bootstrap()
-  }, [])
-
   return (
     <form
       className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
@@ -70,7 +65,7 @@ export function Registration() {
       onSubmit={formik.handleSubmit}
     >
       {/* begin::Heading */}
-      <div className='mb-10 text-center'>
+      <div className='mb-5 text-center'>
         {/* begin::Title */}
         <h1 className='text-dark mb-3'>Create an Account</h1>
         {/* end::Title */}
@@ -85,6 +80,20 @@ export function Registration() {
         {/* end::Link */}
       </div>
       {/* end::Heading */}
+
+      
+      {/* begin::Separator */}
+      <div className='text-center text-muted text-uppercase fw-bolder mb-2'>or</div>
+      {/* end::Separator */}
+
+      {/* begin::Link */}
+        <div className='text-gray-400 text-center fw-bold fs-4 mb-4'>
+          Already have an Club Code?
+          <Link to='/auth/registration-club' className='link-primary fw-bolder' style={{marginLeft: '5px'}}>
+            Join Club
+          </Link>
+        </div>
+        {/* end::Link */}
 
       {formik.status && (
         <div className='mb-lg-15 alert alert-danger'>
@@ -216,6 +225,32 @@ export function Registration() {
           <div className='fv-plugins-message-container'>
             <div className='fv-help-block'>
               <span role='alert'>{formik.errors.clubName}</span>
+            </div>
+          </div>
+        )}
+      </div>
+      {/* end::Form group */}
+
+       {/* begin::Form group Club Name */}
+      <div className='fv-row mb-7'>
+        <label className='form-label fw-bolder text-dark fs-6'>Club Code</label>
+        <input
+          placeholder='Club Code'
+          type='text'
+          autoComplete='off'
+          {...formik.getFieldProps('clubCode')}
+          className={clsx(
+            'form-control form-control-lg form-control-solid',
+            {'is-invalid': formik.touched.clubCode && formik.errors.clubCode},
+            {
+              'is-valid': formik.touched.clubCode && !formik.errors.clubCode,
+            }
+          )}
+        />
+        {formik.touched.clubCode && formik.errors.clubCode && (
+          <div className='fv-plugins-message-container'>
+            <div className='fv-help-block'>
+              <span role='alert'>{formik.errors.clubCode}</span>
             </div>
           </div>
         )}

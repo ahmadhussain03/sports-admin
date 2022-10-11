@@ -62,6 +62,6 @@ export interface UserModel {
   last_name: string
   user_type: string
   email_verified_at: string | null
-  club_id: number
+  club_id: number | null
   club?: ClubModel
 }

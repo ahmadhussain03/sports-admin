@@ -11,8 +11,9 @@ import { PrivateRoutes } from './PrivateRoutes'
 import { ErrorsPage } from '../modules/errors/ErrorsPage'
 import { Logout, AuthPage, useAuth } from '../modules/auth'
 import { App } from '../App'
-import { EmailPage } from '../modules/email/EmailPages'
+import { EmailPage } from '../modules/email'
 import { RequestInformationPage } from '../modules/request-information/RequestInformationPage'
+import { ClubPage } from '../modules/club'
 
 /**
  * Base URL of the website.
@@ -32,7 +33,8 @@ const AppRoutes: FC = () => {
           <Route path='logout' element={<Logout />} />
           <Route path='request/*' element={<RequestInformationPage />} />
           {currentUser ? (
-            currentUser.email_verified_at !== null ? (
+            currentUser.club_id !== null ? (
+              currentUser.email_verified_at !== null ? (
               <>
                 <Route path='/*' element={<PrivateRoutes />} />
                 <Route index element={<Navigate to='/dashboard' />} />
@@ -41,6 +43,12 @@ const AppRoutes: FC = () => {
               <>
                 <Route path='email_verification/*' element={<EmailPage />} />
                 <Route path='*' element={<Navigate to='/email_verification' />} />
+              </>
+            )
+            ) : (
+               <>
+                <Route path='club/*' element={<ClubPage />} />
+                <Route path='*' element={<Navigate to='/club' />} />
               </>
             )
           ) : (

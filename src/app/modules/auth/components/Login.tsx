@@ -157,7 +157,7 @@ export function Login() {
 
         {data?.data?.redirectUrl && (
             <>
-             {/* begin::Separator */}
+              {/* begin::Separator */}
               <div className='text-center text-muted text-uppercase fw-bolder mb-5'>or</div>
               {/* end::Separator */}
 

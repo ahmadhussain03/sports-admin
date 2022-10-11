@@ -7,6 +7,7 @@ const APP_URL = process.env.REACT_APP_APP_URL
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/user`
 export const LOGIN_URL = `${API_URL}/login`
 export const REGISTER_URL = `${API_URL}/register`
+export const REGISTER_WITH_CLUB_URL = `${API_URL}/register_club`
 export const REQUEST_PASSWORD_VERIFICATION_CODE_URL = `${API_URL}/password_forgot`
 export const PASSWORD_RESET_URL = `${API_URL}/password_reset`
 export const LOGOUT_URL = `${API_URL}/logout`
@@ -20,6 +21,18 @@ export interface RegisterPayload {
   password: string,
   password_confirmation: string,
   clubName: string,
+  clubCode: string,
+}
+
+export interface RegisterWithClubPayload {
+  firstName: string,
+  lastName: string,
+  email: string,
+  username: string,
+  password: string,
+  password_confirmation: string,
+  clubCode: string,
+  role: string,
 }
 
 export interface PasswordResetPayload {
@@ -40,6 +53,12 @@ export function register(
   data: RegisterPayload
 ) {
   return axios.post<AuthModel>(REGISTER_URL, data)
+}
+
+export function registerWithClub(
+  data: RegisterWithClubPayload
+) {
+  return axios.post<AuthModel>(REGISTER_WITH_CLUB_URL, data)
 }
 
 export function requestPasswordVerificationCode(email: string) {
