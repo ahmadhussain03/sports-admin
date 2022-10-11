@@ -42,7 +42,7 @@ const QueryResponseProvider: FC<WithChildren> = ({ children }) => {
     refetch,
     data: response,
   } = useQuery(
-    `${QUERIES.SESSION_LOG_LIST}-${sessionId}-${query}`,
+    [QUERIES.SESSION_LOG_LIST, sessionId, query],
     () => {
       return getSessionLogs(query, sessionId)
     },

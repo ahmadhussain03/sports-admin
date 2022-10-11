@@ -40,6 +40,7 @@ const SessionPlayerModal: React.FC<ISessionPlayerModal> = ({ setIsOpen }) => {
         await assignPlayerToSession(sessionId, { player: values.player!.value })
         queryClient.invalidateQueries([`${QUERIES.SESSION_PLAYER_LIST}-${sessionId}-${query}`])
         queryClient.invalidateQueries(['session-view', sessionId])
+        queryClient.invalidateQueries([QUERIES.SESSION_LOG_LIST, sessionId])
         formik.resetForm()
         setLoading(false)
         setIsOpen(false)

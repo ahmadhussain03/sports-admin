@@ -6,6 +6,7 @@ import { ForgotPassword } from './components/ForgotPassword'
 import { Login } from './components/Login'
 import { toAbsoluteUrl } from '../../../_metronic/helpers'
 import { Navigate } from 'react-router-dom';
+import { GoogleCallback } from './components/GoogleCallback'
 
 const AuthLayout = () => {
   useEffect(() => {
@@ -63,6 +64,7 @@ const AuthPage = () => (
       <Route path='login' element={<Login />} />
       <Route path='registration' element={<Registration />} />
       <Route path='forgot-password' element={<ForgotPassword />} />
+      <Route path='google' element={<GoogleCallback />} />
       <Route index element={<Login />} />
       <Route path='*' element={<Navigate to="/error/404" />} />
     </Route>

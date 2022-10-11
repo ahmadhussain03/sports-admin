@@ -5,8 +5,8 @@ import { User } from '../../../../user-management/users-list/core/_models'
 export interface SessionLog {
   id: number
   action: string
-  userId: number
-  user: User,
+  userId: number | null
+  user: User | null,
   created_at: string
 }
 

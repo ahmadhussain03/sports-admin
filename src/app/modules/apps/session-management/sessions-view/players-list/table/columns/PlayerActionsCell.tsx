@@ -36,6 +36,7 @@ const PlayerActionCell: FC<Props> = ({id, player}) => {
       // ✅ update detail view directly
       queryClient.invalidateQueries([`${QUERIES.SESSION_PLAYER_LIST}-${sessionId}-${query}`])
       queryClient.invalidateQueries(['session-view', sessionId])
+      queryClient.invalidateQueries([QUERIES.SESSION_LOG_LIST, sessionId])
     },
   })
 

@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { ID, Response } from '../../../../../../../_metronic/helpers'
+import { ID } from '../../../../../../../_metronic/helpers'
 import { SessionsResponseQuery } from './_models'
 import axios from '../../../../../../utils/axios'
 

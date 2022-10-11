@@ -6,6 +6,8 @@ import {useFormik} from 'formik'
 import {login} from '../core/_requests'
 import {useAuth} from '../core/Auth'
 import {getError} from '../../../utils/helpers'
+import { toAbsoluteUrl } from '../../../../_metronic/helpers'
+import { useGoogleRedirect } from '../core/_hooks'
 
 const initialValues = {
   username: '',
@@ -15,6 +17,7 @@ const initialValues = {
 export function Login() {
   const [loading, setLoading] = useState(false)
   const {saveAuth, setCurrentUser} = useAuth()
+  const { data } = useGoogleRedirect()
 
   const formik = useFormik({
     initialValues,
@@ -151,6 +154,25 @@ export function Login() {
             </span>
           )}
         </button>
+
+        {data?.data?.redirectUrl && (
+            <>
+             {/* begin::Separator */}
+              <div className='text-center text-muted text-uppercase fw-bolder mb-5'>or</div>
+              {/* end::Separator */}
+
+              {/* begin::Google link */}
+              <a href='#' onClick={() => window.location.replace(data.data.redirectUrl)} className='btn btn-flex flex-center btn-light btn-lg w-100 mb-5'>
+                <img
+                  alt='Logo'
+                  src={toAbsoluteUrl('/media/svg/brand-logos/google-icon.svg')}
+                  className='h-20px me-3'
+                />
+                Continue with Google
+              </a>
+              {/* end::Google link */}
+            </>
+        )}
       </div>
       {/* end::Action */}
     </form>
