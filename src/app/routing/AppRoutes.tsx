@@ -14,6 +14,7 @@ import { App } from '../App'
 import { EmailPage } from '../modules/email'
 import { RequestInformationPage } from '../modules/request-information/RequestInformationPage'
 import { ClubPage } from '../modules/club'
+import { ApprovalPages } from '../modules/approval'
 
 /**
  * Base URL of the website.
@@ -33,20 +34,27 @@ const AppRoutes: FC = () => {
           <Route path='logout' element={<Logout />} />
           <Route path='request/*' element={<RequestInformationPage />} />
           {currentUser ? (
-            currentUser.club_id !== null ? (
-              currentUser.email_verified_at !== null ? (
-              <>
-                <Route path='/*' element={<PrivateRoutes />} />
-                <Route index element={<Navigate to='/dashboard' />} />
-              </>
+            !!currentUser.club_id ? (
+              !!currentUser.account_verified_at ? (
+                !!currentUser.email_verified_at ? (
+                  <>
+                    <Route path='/*' element={<PrivateRoutes />} />
+                    <Route index element={<Navigate to='/dashboard' />} />
+                  </>
+                ) : (
+                  <>
+                    <Route path='email_verification/*' element={<EmailPage />} />
+                    <Route path='*' element={<Navigate to='/email_verification' />} />
+                  </>
+                )
+              ) : (
+                <>
+                  <Route path='approval/*' element={<ApprovalPages />} />
+                  <Route path='*' element={<Navigate to='/approval' />} />
+                </> 
+              )
             ) : (
               <>
-                <Route path='email_verification/*' element={<EmailPage />} />
-                <Route path='*' element={<Navigate to='/email_verification' />} />
-              </>
-            )
-            ) : (
-               <>
                 <Route path='club/*' element={<ClubPage />} />
                 <Route path='*' element={<Navigate to='/club' />} />
               </>

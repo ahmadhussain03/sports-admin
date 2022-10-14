@@ -3,10 +3,9 @@ import {useEffect} from 'react'
 import {Navigate, Outlet, Route, Routes} from 'react-router-dom'
 import {toAbsoluteUrl} from '../../../_metronic/helpers'
 import { useAuth } from '../auth'
-import { CreateClub } from './components/CreateClub'
-import { JoinClub } from './components/JoinClub'
+import { NeedApproval } from './components/NeedApproval'
 
-const ClubLayout = () => {
+const ApprovalLayout = () => {
 
   const {logout} = useAuth()
 
@@ -51,14 +50,13 @@ const ClubLayout = () => {
   )
 }
 
-const ClubPage = () => (
+const ApprovalPages = () => (
   <Routes>
-    <Route element={<ClubLayout />}>
-      <Route index element={<CreateClub />} />
-      <Route path="join" element={<JoinClub />} />
+    <Route element={<ApprovalLayout />}>
+      <Route index element={<NeedApproval />} />
       <Route path='*' element={<Navigate to='/error/404' />} />
     </Route>
   </Routes>
 )
 
-export {ClubPage}
+export {ApprovalPages}

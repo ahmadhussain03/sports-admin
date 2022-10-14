@@ -15,7 +15,6 @@ export function EmailVerification() {
         const response = await resendEmailVerification()
         setSuccess(response.data.message);
     } catch(error: any) {
-        console.log(error)
         if(error?.response?.data?.message) {
             setError(error?.response?.data?.message)
         } else if(error?.response?.message) {

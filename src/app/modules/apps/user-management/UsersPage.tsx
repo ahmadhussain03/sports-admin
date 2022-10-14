@@ -1,5 +1,6 @@
 import {Route, Routes, Outlet, Navigate} from 'react-router-dom'
 import {PageLink, PageTitle} from '../../../../_metronic/layout/core'
+import { UserApprovalsWrapper } from './user-approval-list/UserApprovalsList'
 import {UsersCreate} from './users-create/UsersCreate'
 import { UsersEdit } from './users-edit/UsersEdit'
 import { UsersInformationCreate } from './users-information-create/UsersInfromationCreate'
@@ -58,6 +59,15 @@ const UsersPage = () => {
             <>
               <PageTitle breadcrumbs={usersBreadcrumbs}>User Information Forms</PageTitle>
               <UsersInformationFormListWrapper />
+            </>
+          }
+        />
+         <Route
+          path='users/approval'
+          element={
+            <>
+              <PageTitle breadcrumbs={usersBreadcrumbs}>User Approvals</PageTitle>
+              <UserApprovalsWrapper />
             </>
           }
         />

@@ -1,5 +1,6 @@
 const QUERIES = {
   USERS_LIST: 'users-list',
+  USERS_APPROVAL_LIST: 'users-approval-list',
   TEAM_LIST: 'teams-list',
   PLAYER_LIST: 'players-list',
   FINANCE_LIST: 'finances-list',

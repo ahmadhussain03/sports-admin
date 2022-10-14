@@ -86,8 +86,7 @@ const AuthInit: FC<WithChildren> = ({children}) => {
       }
 
       return () => (didRequest.current = true)
-    }
-
+  }
     if (auth && auth.token.token) {
       requestUser(auth.token.token)
     } else {

@@ -1,10 +1,7 @@
 import {KTSVG} from '../../../../../../../_metronic/helpers'
-import {useListView} from '../../core/ListViewProvider'
-import {UsersListFilter} from './UsersListFilter'
 import { useNavigate } from 'react-router-dom';
 
 const UsersListToolbar = () => {
-  const {setItemIdForUpdate} = useListView()
   const navigation = useNavigate()
 
   const redirectAddUser = () => {
@@ -15,16 +12,19 @@ const UsersListToolbar = () => {
     navigation('/user-management/users/information-form')
   }
 
+  const redirectUserApproval = () => {
+    navigation('/user-management/users/approval')
+  }
+
   return (
     <div className='d-flex justify-content-end' data-kt-user-table-toolbar='base'>
       {/* <UsersListFilter /> */}
 
       {/* begin::Export */}
-      {/* <button type='button' className='btn btn-light-primary me-3'>
-        <KTSVG path='/media/icons/duotune/arrows/arr078.svg' className='svg-icon-2' />
-        Export
-      </button> */}
-      {/* end::Export */}
+      <button type='button' className='btn btn-light-primary me-3' onClick={redirectUserApproval}>
+        <KTSVG path='/media/icons/duotune/general/gen026.svg' className='svg-icon-2' />
+        Users Approval
+      </button>
 
        {/* begin::Add user */}
        <button type='button' className='btn btn-success me-3' onClick={redirectUserInformationForm}>

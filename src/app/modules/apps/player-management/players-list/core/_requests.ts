@@ -17,4 +17,16 @@ const deletePlayer = (playerId: ID): Promise<void> => {
   return axios.delete(`${PLAYER_URL}/${playerId}`).then(() => {})
 }
 
-export {getPlayers, deletePlayer}
+const importPlayers = (file: File) => {
+
+  const formData = new FormData()
+  formData.append('report', file)
+
+  return axios.post(`player_import`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+
+export {getPlayers, deletePlayer, importPlayers}
