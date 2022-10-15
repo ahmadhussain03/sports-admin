@@ -1,4 +1,5 @@
 import {Route, Routes, Outlet, Navigate} from 'react-router-dom'
+import { Authorization, AuthorizationFallback } from '../../../../lib/authorization'
 import {PageLink, PageTitle} from '../../../../_metronic/layout/core'
 import {TeamsCreate} from './teams-create/TeamsCreate'
 import { TeamsEdit } from './teams-edit/TeamsEdit'
@@ -28,8 +29,10 @@ const TeamsPage = () => {
           path='teams'
           element={
             <>
-              <PageTitle breadcrumbs={teamsBreadcrumb}>Teams List</PageTitle>
-              <TeamsListWrapper />
+              <Authorization allowedPermissions={['view-team']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={teamsBreadcrumb}>Teams List</PageTitle>
+                <TeamsListWrapper />
+              </Authorization>
             </>
           }
         />
@@ -37,8 +40,10 @@ const TeamsPage = () => {
           path='teams/create'
           element={
             <>
-              <PageTitle breadcrumbs={teamsBreadcrumb}>Create Team</PageTitle>
-              <TeamsCreate />
+              <Authorization allowedPermissions={['create-team']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={teamsBreadcrumb}>Create Team</PageTitle>
+                <TeamsCreate />
+              </Authorization>
             </>
           }
         />
@@ -46,8 +51,10 @@ const TeamsPage = () => {
           path='teams/edit/:id'
           element={
             <>
-              <PageTitle breadcrumbs={teamsBreadcrumb}>Edit Team</PageTitle>
-              <TeamsEdit />
+              <Authorization allowedPermissions={['update-team']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={teamsBreadcrumb}>Edit Team</PageTitle>
+                <TeamsEdit />
+              </Authorization>
             </>
           }
         />
@@ -55,8 +62,10 @@ const TeamsPage = () => {
           path='teams/view/:id'
           element={
             <>
-              <PageTitle breadcrumbs={teamsBreadcrumb}>Team Detail</PageTitle>
-              <TeamsView />
+              <Authorization allowedPermissions={['view-team']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={teamsBreadcrumb}>Team Detail</PageTitle>
+                <TeamsView />
+              </Authorization>
             </>
           }
         />

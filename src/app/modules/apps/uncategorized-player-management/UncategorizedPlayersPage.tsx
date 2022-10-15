@@ -1,4 +1,5 @@
 import {Route, Routes, Outlet, Navigate} from 'react-router-dom'
+import { Authorization, AuthorizationFallback } from '../../../../lib/authorization'
 import {PageLink, PageTitle} from '../../../../_metronic/layout/core'
 import { PlayersAssign } from './players-assign/PlayersAssign'
 import {PlayersListWrapper} from './players-list/PlayersList'
@@ -26,8 +27,10 @@ const PlayersPage = () => {
           path='players'
           element={
             <>
-              <PageTitle breadcrumbs={playersBreadcrumbs}>Uncategorized Players List</PageTitle>
-              <PlayersListWrapper />
+              <Authorization allowedPermissions={['view-uncategorized-player']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={playersBreadcrumbs}>Uncategorized Players List</PageTitle>
+                <PlayersListWrapper />
+              </Authorization>
             </>
           }
         />
@@ -35,8 +38,10 @@ const PlayersPage = () => {
           path='players/assign'
           element={
             <>
-              <PageTitle breadcrumbs={playersBreadcrumbs}>Assign Player</PageTitle>
-              <PlayersAssign />
+              <Authorization allowedPermissions={['update-player']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={playersBreadcrumbs}>Assign Player</PageTitle>
+                <PlayersAssign />
+              </Authorization>
             </>
           }
         />

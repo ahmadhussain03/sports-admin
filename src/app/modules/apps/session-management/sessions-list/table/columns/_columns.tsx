@@ -3,6 +3,7 @@ import {SessionActionCell} from './SessionActionsCell'
 import {SessionCustomHeader} from './SessionCustomHeader'
 import {Session} from '../../core/_models'
 import { SessionInfoCell } from './SessionInfoCell'
+import { Authorization } from '../../../../../../../lib/authorization'
 
 const sessionsColumn: ReadonlyArray<Column<Session>> = [
   {
@@ -35,7 +36,7 @@ const sessionsColumn: ReadonlyArray<Column<Session>> = [
       <SessionCustomHeader tableProps={props} title='Actions' className='text-end min-w-100px' />
     ),
     id: 'actions',
-    Cell: ({...props}) => <SessionActionCell session={props.data[props.row.index]} id={props.data[props.row.index].id} />,
+    Cell: ({...props}) => <Authorization allowedPermissions={['update-session']}><SessionActionCell session={props.data[props.row.index]} id={props.data[props.row.index].id} /></Authorization>,
   },
 ]
 

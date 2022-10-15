@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
+import { Authorization } from "../../../../../lib/authorization"
 import { KTSVG } from "../../../../../_metronic/helpers"
 import { toAbsoluteUrl } from "../../../../../_metronic/helpers/AssetHelpers"
 import SessionDetail from "./components/SessionDetail"
@@ -48,9 +49,13 @@ const SessionsView = () => {
       </div>
       {!!data && <SessionDetail session={data} />}
       <div className="separator my-5"></div>
-      <PlayersListWrapper />
+      <Authorization allowedPermissions={['view-session-players']}>
+        <PlayersListWrapper />
+      </Authorization>
       <div className="separator my-5"></div>
-      <SessionLogListWrapper />
+      <Authorization allowedPermissions={['view-session-logs']}>
+        <SessionLogListWrapper />
+      </Authorization>
     </>
   )
 }

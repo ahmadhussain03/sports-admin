@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Player } from '../../core/_models'
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { Authorization } from '../../../../../../../../lib/authorization'
 
 type Props = {
     player: Player
@@ -44,14 +45,16 @@ const PlayerAttendanceCell: FC<Props> = ({ player }) => {
             <div className='d-flex flex-column align-items-center'>
                 {player.pivot_attendance === null ? (
                     <>
-                        <div className='d-flex items-center'>
-                            <a style={{ cursor: 'pointer' }} onClick={async () => await sessionAttendance.mutateAsync(true)} className="badge badge-success mx-1">
-                                <i className="fa fa-check fs-2 text-white"></i>
-                            </a>
-                            <a style={{ cursor: 'pointer' }} onClick={async () => await sessionAttendance.mutateAsync(false)} className="badge badge-danger mx-1 px-3">
-                                <i className="fa fa-remove fs-2 text-white"></i>
-                            </a>
-                        </div>
+                        <Authorization allowedPermissions={['attendance-session-players']}>
+                            <div className='d-flex items-center'>
+                                <a style={{ cursor: 'pointer' }} onClick={async () => await sessionAttendance.mutateAsync(true)} className="badge badge-success mx-1">
+                                    <i className="fa fa-check fs-2 text-white"></i>
+                                </a>
+                                <a style={{ cursor: 'pointer' }} onClick={async () => await sessionAttendance.mutateAsync(false)} className="badge badge-danger mx-1 px-3">
+                                    <i className="fa fa-remove fs-2 text-white"></i>
+                                </a>
+                            </div>
+                        </Authorization>
                     </>
                 ) : (
                     <>

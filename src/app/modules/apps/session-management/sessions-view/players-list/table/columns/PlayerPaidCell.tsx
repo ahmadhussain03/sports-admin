@@ -10,6 +10,7 @@ import { Player } from '../../core/_models'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import clsx from 'clsx';
+import { useAuthorization } from './../../../../../../../../lib/authorization';
 
 type Props = {
   player: Player
@@ -19,6 +20,7 @@ const PlayerPaidCell: FC<Props> = ({player}) => {
   const navigation = useNavigate()
   const {query} = useQueryResponse()
   const queryClient = useQueryClient()
+  const { can } = useAuthorization()
 
   const { id: queryId } = useParams()
 
@@ -39,6 +41,9 @@ const PlayerPaidCell: FC<Props> = ({player}) => {
   })
 
   const onPaymentClick = async () => {
+
+    if(!can({ allowedPermissions: ['payment-session-players'] })) return
+
     confirmAlert({
      customUI: ({ onClose }) => {
 

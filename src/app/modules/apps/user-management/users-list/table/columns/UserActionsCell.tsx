@@ -3,11 +3,11 @@ import {FC, useEffect} from 'react'
 import {useMutation, useQueryClient} from 'react-query'
 import {MenuComponent} from '../../../../../../../_metronic/assets/ts/components'
 import {ID, KTSVG, QUERIES} from '../../../../../../../_metronic/helpers'
-import {useListView} from '../../core/ListViewProvider'
 import {useQueryResponse} from '../../core/QueryResponseProvider'
 import {deleteUser} from '../../core/_requests'
 import { useNavigate } from 'react-router-dom';
 import { User } from '../../core/_models'
+import { Authorization } from '../../../../../../../lib/authorization'
 
 type Props = {
   id: ID,
@@ -15,7 +15,6 @@ type Props = {
 }
 
 const UserActionsCell: FC<Props> = ({id, user}) => {
-  const {setItemIdForUpdate} = useListView()
   const navigation = useNavigate()
   const {query} = useQueryResponse()
   const queryClient = useQueryClient()
@@ -55,23 +54,27 @@ const UserActionsCell: FC<Props> = ({id, user}) => {
         data-kt-menu='true'
       >
         {/* begin::Menu item */}
-        <div className='menu-item px-3'>
-          <a className='menu-link px-3' onClick={redirectEditPage}>
-            Edit
-          </a>
-        </div>
+        <Authorization allowedPermissions={['update-user']}>
+          <div className='menu-item px-3'>
+            <a className='menu-link px-3' onClick={redirectEditPage}>
+              Edit
+            </a>
+          </div>
+        </Authorization>
         {/* end::Menu item */}
 
         {/* begin::Menu item */}
-        <div className='menu-item px-3'>
-          <a
-            className='menu-link px-3'
-            data-kt-users-table-filter='delete_row'
-            onClick={async () => await deleteItem.mutateAsync()}
-          >
-            Delete
-          </a>
-        </div>
+        <Authorization allowedPermissions={['delete-user']}>
+          <div className='menu-item px-3'>
+            <a
+              className='menu-link px-3'
+              data-kt-users-table-filter='delete_row'
+              onClick={async () => await deleteItem.mutateAsync()}
+            >
+              Delete
+            </a>
+          </div>
+        </Authorization>
         {/* end::Menu item */}
       </div>
       {/* end::Menu */}

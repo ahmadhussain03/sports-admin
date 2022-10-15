@@ -7,6 +7,7 @@ import {UserSelectionCell} from './UserSelectionCell'
 import {UserCustomHeader} from './UserCustomHeader'
 import {UserSelectionHeader} from './UserSelectionHeader'
 import {User} from '../../core/_models'
+import { Authorization } from '../../../../../../../lib/authorization'
 
 const usersColumns: ReadonlyArray<Column<User>> = [
   {
@@ -29,7 +30,7 @@ const usersColumns: ReadonlyArray<Column<User>> = [
       <UserCustomHeader tableProps={props} title='Actions' className='text-end min-w-100px' />
     ),
     id: 'actions',
-    Cell: ({...props}) => <UserActionsCell user={props.data[props.row.index]} id={props.data[props.row.index].id} />,
+    Cell: ({...props}) => <Authorization allowedPermissions={['update-user', 'delete-user']}><UserActionsCell user={props.data[props.row.index]} id={props.data[props.row.index].id} /></Authorization>,
   },
 ]
 

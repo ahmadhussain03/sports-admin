@@ -3,6 +3,7 @@ import {UserInfoCell} from './UserInfoCell'
 import {UserCustomHeader} from './UserCustomHeader'
 import {User} from '../../core/_models'
 import { UserApprovalCell } from './UserApprovalCell'
+import { Authorization } from './../../../../../../../lib/authorization';
 
 const usersColumns: ReadonlyArray<Column<User>> = [
   {
@@ -25,7 +26,7 @@ const usersColumns: ReadonlyArray<Column<User>> = [
       <UserCustomHeader tableProps={props} title='Approve/Reject' className='text-center min-w-100px' />
     ),
     id: 'actions',
-    Cell: ({...props}) => <UserApprovalCell user={props.data[props.row.index]} />,
+    Cell: ({...props}) => <Authorization allowedPermissions={['reject-user-request', 'approve-user-request']}><UserApprovalCell user={props.data[props.row.index]} /></Authorization>,
   },
 ]
 

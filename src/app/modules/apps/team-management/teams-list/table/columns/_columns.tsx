@@ -3,6 +3,7 @@ import {TeamActionsCell} from './TeamActionsCell'
 import {TeamCustomHeader} from './TeamCustomHeader'
 import {Team} from '../../core/_models'
 import { TeamInfoCell } from './TeamInfoCell'
+import { Authorization } from '../../../../../../../lib/authorization'
 
 const usersColumns: ReadonlyArray<Column<Team>> = [
   {
@@ -21,7 +22,7 @@ const usersColumns: ReadonlyArray<Column<Team>> = [
       <TeamCustomHeader tableProps={props} title='Actions' className='text-end min-w-100px' />
     ),
     id: 'actions',
-    Cell: ({...props}) => <TeamActionsCell team={props.data[props.row.index]} id={props.data[props.row.index].id} />,
+    Cell: ({...props}) => <Authorization allowedPermissions={['update-team', 'delete-team']}><TeamActionsCell team={props.data[props.row.index]} id={props.data[props.row.index].id} /></Authorization>,
   },
 ]
 

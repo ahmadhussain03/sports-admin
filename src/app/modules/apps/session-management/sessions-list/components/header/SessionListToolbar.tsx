@@ -2,6 +2,7 @@ import {KTSVG} from '../../../../../../../_metronic/helpers'
 import {useListView} from '../../core/ListViewProvider'
 import {UsersListFilter} from './UsersListFilter'
 import { useNavigate } from 'react-router-dom';
+import { Authorization } from '../../../../../../../lib/authorization';
 
 const PlayerListToolbar = () => {
   const navigation = useNavigate()
@@ -26,10 +27,12 @@ const PlayerListToolbar = () => {
       {/* end::Export */}
 
       {/* begin::Add user */}
-      <button type='button' className='btn btn-primary' onClick={redirectAddSession}>
-        <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
-        Add Session
-      </button>
+      <Authorization allowedPermissions={['create-session']}>
+        <button type='button' className='btn btn-primary' onClick={redirectAddSession}>
+          <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
+          Add Session
+        </button>
+      </Authorization>
       {/* end::Add user */}
     </div>
   )

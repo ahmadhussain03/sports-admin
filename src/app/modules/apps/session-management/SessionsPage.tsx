@@ -1,4 +1,5 @@
 import {Route, Routes, Outlet, Navigate} from 'react-router-dom'
+import { Authorization, AuthorizationFallback } from '../../../../lib/authorization'
 import {PageLink, PageTitle} from '../../../../_metronic/layout/core'
 import SessionsCalendar from './sessions-calendar/SessionsCalendar'
 import {SessionsCreate} from './sessions-create/SessionsCreate'
@@ -29,8 +30,10 @@ const SessionsPage = () => {
           path='sessions'
           element={
             <>
-              <PageTitle breadcrumbs={sessionsBreadcrumbs}>Sessions List</PageTitle>
-              <SessionListWrapper />
+              <Authorization allowedPermissions={['view-session']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={sessionsBreadcrumbs}>Sessions List</PageTitle>
+                <SessionListWrapper />
+              </Authorization>
             </>
           }
         />
@@ -38,8 +41,10 @@ const SessionsPage = () => {
           path='sessions/calendar'
           element={
             <>
-              <PageTitle breadcrumbs={sessionsBreadcrumbs}>Sessions Calendar</PageTitle>
-              <SessionsCalendar />
+             <Authorization allowedPermissions={['view-session']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={sessionsBreadcrumbs}>Sessions Calendar</PageTitle>
+                <SessionsCalendar />
+              </Authorization>
             </>
           }
         />
@@ -47,8 +52,10 @@ const SessionsPage = () => {
           path='sessions/create'
           element={
             <>
-              <PageTitle breadcrumbs={sessionsBreadcrumbs}>Create Session</PageTitle>
-              <SessionsCreate />
+              <Authorization allowedPermissions={['create-session']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={sessionsBreadcrumbs}>Create Session</PageTitle>
+                <SessionsCreate />
+              </Authorization>
             </>
           }
         />
@@ -56,8 +63,10 @@ const SessionsPage = () => {
           path='sessions/edit/:id'
           element={
             <>
-              <PageTitle breadcrumbs={sessionsBreadcrumbs}>Edit Session</PageTitle>
-              <SessionsEdit />
+              <Authorization allowedPermissions={['update-session']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={sessionsBreadcrumbs}>Edit Session</PageTitle>
+                <SessionsEdit />
+              </Authorization>
             </>
           }
         />
@@ -65,8 +74,10 @@ const SessionsPage = () => {
           path='sessions/view/:id'
           element={
             <>
-              <PageTitle breadcrumbs={sessionsBreadcrumbs}>Session Detail</PageTitle>
-              <SessionsView />
+              <Authorization allowedPermissions={['view-session']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={sessionsBreadcrumbs}>Session Detail</PageTitle>
+                <SessionsView />
+              </Authorization>
             </>
           }
         />

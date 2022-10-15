@@ -1,4 +1,5 @@
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom'
+import { Authorization, AuthorizationFallback } from '../../../../lib/authorization'
 import { PageLink, PageTitle } from '../../../../_metronic/layout/core'
 import { FinancesListWrapper } from './finances-list/FinancesList'
 
@@ -25,8 +26,10 @@ const FinancesPage = () => {
                     path='finances'
                     element={
                         <>
-                            <PageTitle breadcrumbs={financesBreadcrumbs}>Finances</PageTitle>
-                            <FinancesListWrapper />
+                            <Authorization allowedPermissions={['view-finance']} forbiddenFallback={<AuthorizationFallback />}>
+                                <PageTitle breadcrumbs={financesBreadcrumbs}>Finances</PageTitle>
+                                <FinancesListWrapper />
+                            </Authorization>
                         </>
                     }
                 />

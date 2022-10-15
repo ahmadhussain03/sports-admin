@@ -8,6 +8,7 @@ import {useQueryResponse} from '../../core/QueryResponseProvider'
 import {deleteTeam} from '../../core/_requests'
 import { useNavigate } from 'react-router-dom';
 import { Team } from '../../core/_models'
+import { Authorization } from '../../../../../../../lib/authorization'
 
 type Props = {
   id: ID,
@@ -55,23 +56,27 @@ const TeamActionsCell: FC<Props> = ({id, team}) => {
         data-kt-menu='true'
       >
         {/* begin::Menu item */}
-        <div className='menu-item px-3'>
-          <a className='menu-link px-3' onClick={redirectEditPage}>
-            Edit
-          </a>
-        </div>
+        <Authorization allowedPermissions={['update-team']}>
+          <div className='menu-item px-3'>
+            <a className='menu-link px-3' onClick={redirectEditPage}>
+              Edit
+            </a>
+          </div>
+        </Authorization>
         {/* end::Menu item */}
 
         {/* begin::Menu item */}
-        <div className='menu-item px-3'>
-          <a
-            className='menu-link px-3'
-            data-kt-users-table-filter='delete_row'
-            onClick={async () => await deleteItem.mutateAsync()}
-          >
-            Delete
-          </a>
-        </div>
+        <Authorization allowedPermissions={['delete-team']}>
+          <div className='menu-item px-3'>
+            <a
+              className='menu-link px-3'
+              data-kt-users-table-filter='delete_row'
+              onClick={async () => await deleteItem.mutateAsync()}
+            >
+              Delete
+            </a>
+          </div>
+        </Authorization>
         {/* end::Menu item */}
       </div>
       {/* end::Menu */}

@@ -4,6 +4,7 @@ import {PlayersCreate} from './teams-create/PlayersCreate'
 import { PlayersEdit } from './teams-edit/PlayersEdit'
 import {PlayersListWrapper} from './players-list/PlayersList'
 import { PlayersView } from './players-view/PlayersView'
+import { Authorization, AuthorizationFallback } from './../../../../lib/authorization';
 
 const playersBreadcrumbs: Array<PageLink> = [
   {
@@ -28,8 +29,10 @@ const PlayersPage = () => {
           path='players'
           element={
             <>
-              <PageTitle breadcrumbs={playersBreadcrumbs}>Players List</PageTitle>
-              <PlayersListWrapper />
+              <Authorization allowedPermissions={['view-player']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={playersBreadcrumbs}>Players List</PageTitle>
+                <PlayersListWrapper />
+              </Authorization>
             </>
           }
         />
@@ -37,8 +40,10 @@ const PlayersPage = () => {
           path='players/create'
           element={
             <>
-              <PageTitle breadcrumbs={playersBreadcrumbs}>Create Player</PageTitle>
-              <PlayersCreate />
+              <Authorization allowedPermissions={['create-player']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={playersBreadcrumbs}>Create Player</PageTitle>
+                <PlayersCreate />
+              </Authorization>
             </>
           }
         />
@@ -46,8 +51,10 @@ const PlayersPage = () => {
           path='players/edit/:id'
           element={
             <>
-              <PageTitle breadcrumbs={playersBreadcrumbs}>Edit Player</PageTitle>
-              <PlayersEdit />
+              <Authorization allowedPermissions={['update-player']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={playersBreadcrumbs}>Edit Player</PageTitle>
+                <PlayersEdit />
+              </Authorization>
             </>
           }
         />
@@ -55,8 +62,10 @@ const PlayersPage = () => {
           path='players/view/:id'
           element={
             <>
-              <PageTitle breadcrumbs={playersBreadcrumbs}>Player View</PageTitle>
-              <PlayersView />
+              <Authorization allowedPermissions={['view-player']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={playersBreadcrumbs}>Player View</PageTitle>
+                <PlayersView />
+              </Authorization>
             </>
           }
         />

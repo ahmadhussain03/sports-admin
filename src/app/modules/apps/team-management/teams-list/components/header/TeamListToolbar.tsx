@@ -1,7 +1,6 @@
 import {KTSVG} from '../../../../../../../_metronic/helpers'
-import {useListView} from '../../core/ListViewProvider'
-import {UsersListFilter} from './UsersListFilter'
 import { useNavigate } from 'react-router-dom';
+import { Authorization } from './../../../../../../../lib/authorization';
 
 const TeamListToolbar = () => {
   const navigation = useNavigate()
@@ -22,10 +21,12 @@ const TeamListToolbar = () => {
       {/* end::Export */}
 
       {/* begin::Add user */}
-      <button type='button' className='btn btn-primary' onClick={redirectAddTeam}>
-        <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
-        Add Team
-      </button>
+      <Authorization allowedPermissions={['create-team']}>
+        <button type='button' className='btn btn-primary' onClick={redirectAddTeam}>
+          <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
+          Add Team
+        </button>
+      </Authorization>
       {/* end::Add user */}
     </div>
   )

@@ -6,6 +6,7 @@ import { PlayerInfoCell } from './PlayerInfoCell'
 import { PlayerPaidCell } from './PlayerPaidCell'
 import { PlayerRsvpCell } from './PlayerRsvpCell'
 import { PlayerAttendanceCell } from './PlayerAttendanceCell'
+import { Authorization } from '../../../../../../../../lib/authorization'
 
 const playersColumns: ReadonlyArray<Column<Player>> = [
   {
@@ -46,7 +47,7 @@ const playersColumns: ReadonlyArray<Column<Player>> = [
       <TeamCustomHeader tableProps={props} title='Actions' className='text-end min-w-100px' />
     ),
     id: 'actions',
-    Cell: ({ ...props }) => <PlayerActionCell player={props.data[props.row.index]} id={props.data[props.row.index].id} />,
+    Cell: ({ ...props }) => <Authorization allowedPermissions={['remove-session-players']}><PlayerActionCell player={props.data[props.row.index]} id={props.data[props.row.index].id} /></Authorization>,
   },
 ]
 

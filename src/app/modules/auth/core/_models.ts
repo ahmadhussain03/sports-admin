@@ -53,6 +53,19 @@ export interface ClubModel {
   name: string
 }
 
+export interface Permission {
+  id: number
+  slug: string
+  name: string
+  group: string
+}
+
+export interface Role {
+  id: number
+  name: string
+  permissions: Permission[]
+}
+
 export interface UserModel {
   id: number
   username: string
@@ -64,5 +77,7 @@ export interface UserModel {
   email_verified_at: string | null
   account_verified_at: string | null
   club_id: number | null
+  role_id: number
   club?: ClubModel
+  role?: Role
 }

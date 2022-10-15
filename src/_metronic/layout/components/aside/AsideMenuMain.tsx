@@ -1,23 +1,25 @@
 /* eslint-disable react/jsx-no-target-blank */
 import { useIntl } from 'react-intl'
-import { AsideMenuItemWithSubMain } from './AsideMenuItemWithSubMain'
-import { AsideMenuItemWithSub } from './AsideMenuItemWithSub'
 import { AsideMenuItem } from './AsideMenuItem'
 import { useAuth } from '../../../../app/modules/auth'
-import { KTSVG } from '../../../helpers/components/KTSVG'
+import { Authorization, useAuthorization } from './../../../../lib/authorization';
 
 export function AsideMenuMain() {
   const intl = useIntl()
   const { currentUser } = useAuth()
+  const { can } = useAuthorization()
+
   return (
     <>
-      <AsideMenuItem
-        to='/dashboard'
-        title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
-        fontIcon='bi-bar-chart-line'
-        bsTitle={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
-        className='py-3'
-      />
+      <Authorization allowedPermissions={['view-dashboard-stat']}>
+        <AsideMenuItem
+          to='/dashboard'
+          title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
+          fontIcon='bi-bar-chart-line'
+          bsTitle={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
+          className='py-3'
+        />
+      </Authorization>
       {/* <AsideMenuItem
         to='/builder'
         title='Layout Builder'
@@ -161,47 +163,57 @@ export function AsideMenuMain() {
       </AsideMenuItemWithSubMain> */}
 
       {currentUser?.user_type === 'Owner' && (
-        <AsideMenuItem
-          to='/user-management/users'
-          title='User management'
-          fontIcon='bi-people'
-          bsTitle='User management'
-          icon='/media/icons/duotune/communication/com006.svg'
-          className='py-3'
-        />
+        <Authorization allowedPermissions={['view-user']}>
+          <AsideMenuItem
+            to='/user-management/users'
+            title='User management'
+            fontIcon='bi-people'
+            bsTitle='User management'
+            icon='/media/icons/duotune/communication/com006.svg'
+            className='py-3'
+          />
+        </Authorization>
       )}
 
-      <AsideMenuItem
-        to='/team-management/teams'
-        title='Team Management'
-        icon='/media/icons/duotune/communication/com014.svg'
-        bsTitle='Team management'
-        className='py-3'
-      />
+      <Authorization allowedPermissions={['view-team']}>
+        <AsideMenuItem
+          to='/team-management/teams'
+          title='Team Management'
+          icon='/media/icons/duotune/communication/com014.svg'
+          bsTitle='Team management'
+          className='py-3'
+        />
+      </Authorization>
 
-      <AsideMenuItem
-        to='/player-management/players'
-        title='Player Management'
-        icon='/media/icons/duotune/communication/com013.svg'
-        bsTitle='Player management'
-        className='py-3'
-      />
+      <Authorization allowedPermissions={['view-player']}>
+        <AsideMenuItem
+          to='/player-management/players'
+          title='Player Management'
+          icon='/media/icons/duotune/communication/com013.svg'
+          bsTitle='Player management'
+          className='py-3'
+        />
+      </Authorization>
 
-      <AsideMenuItem
-        to='/session-management/sessions'
-        title='Session Management'
-        icon='/media/icons/duotune/maps/map001.svg'
-        bsTitle='Session management'
-        className='py-3'
-      />
+      <Authorization allowedPermissions={['view-session']}>
+        <AsideMenuItem
+          to='/session-management/sessions'
+          title='Session Management'
+          icon='/media/icons/duotune/maps/map001.svg'
+          bsTitle='Session management'
+          className='py-3'
+        />
+      </Authorization>
 
-      <AsideMenuItem
-        to='/finance-management/finances'
-        title='Finance Management'
-        icon='/media/icons/duotune/graphs/gra004.svg'
-        bsTitle='Finance management'
-        className='py-3'
-      />
+      <Authorization allowedPermissions={['view-finance']}>
+        <AsideMenuItem
+          to='/finance-management/finances'
+          title='Finance Management'
+          icon='/media/icons/duotune/graphs/gra004.svg'
+          bsTitle='Finance management'
+          className='py-3'
+        />
+      </Authorization>
       {/* <AsideMenuItem
         outside={true}
         to={process.env.REACT_APP_PREVIEW_DOCS_URL + '/docs/changelog'}

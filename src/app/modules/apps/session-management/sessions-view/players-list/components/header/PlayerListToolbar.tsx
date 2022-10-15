@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import SessionPlayerModal from './SessionPlayerModal';
 import { sendOutstandingPaymentRequest } from '../../../../../finance-management/finances-list/core/_requests';
 import { toast } from 'react-toastify';
+import { Authorization } from '../../../../../../../../lib/authorization';
 
 const PlayerListToolbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -29,16 +30,20 @@ const PlayerListToolbar = () => {
     <div className='d-flex justify-content-end'>
       {!!isOpen && <SessionPlayerModal setIsOpen={setIsOpen} />}
       {/* begin::Add user */}
-      <button type='button' className='btn btn-success me-3' onClick={() => setIsOpen(true)} >
-        <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
-        Add Player
-      </button>
+      <Authorization allowedPermissions={['assign-session-players']}>
+        <button type='button' className='btn btn-success me-3' onClick={() => setIsOpen(true)} >
+          <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
+          Add Player
+        </button>
+      </Authorization>
       {/* end::Add user */}
-      <button type='button' className='btn btn-primary' onClick={sendPaymentRequest} disabled={loading}>
-        {!loading && <KTSVG path='/media/icons/duotune/finance/fin009.svg' className='svg-icon-2' />}
-        {!!loading && <span className='spinner-border spinner-border-sm align-middle me-2'></span>}
-        Send Request for Outstanding Money
-      </button>
+      <Authorization allowedPermissions={['send-outstanding-payment-request']}>
+        <button type='button' className='btn btn-primary' onClick={sendPaymentRequest} disabled={loading}>
+          {!loading && <KTSVG path='/media/icons/duotune/finance/fin009.svg' className='svg-icon-2' />}
+          {!!loading && <span className='spinner-border spinner-border-sm align-middle me-2'></span>}
+          Send Request for Outstanding Money
+        </button>
+      </Authorization>
     </div>
   )
 }

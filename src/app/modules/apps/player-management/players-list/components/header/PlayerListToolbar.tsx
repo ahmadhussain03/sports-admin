@@ -5,6 +5,7 @@ import { importPlayers } from '../../core/_requests';
 import { toast } from 'react-toastify';
 import { useQueryResponse } from '../../core/QueryResponseProvider';
 import {useQueryClient} from 'react-query'
+import { Authorization } from '../../../../../../../lib/authorization';
 
 const PlayerListToolbar = () => {
   const navigation = useNavigate()
@@ -51,25 +52,31 @@ const PlayerListToolbar = () => {
     <div className='d-flex justify-content-end' data-kt-user-table-toolbar='base'>
       {/* <UsersListFilter /> */}
 
-      <input type="file" style={{display: 'none'}} ref={inputFileRef} onInput={onFileSelect} />
-      {/* begin::Export */}
-      <button type='button' className='btn btn-light-primary me-3' onClick={onFileUploadClick}>
-        <KTSVG path='/media/icons/duotune/files/fil010.svg' className='svg-icon-2' />
-        Upload Sheet
-      </button>
+      <Authorization allowedPermissions={['import-player']}>
+        <input type="file" style={{display: 'none'}} ref={inputFileRef} onInput={onFileSelect} />
+        {/* begin::Export */}
+        <button type='button' className='btn btn-light-primary me-3' onClick={onFileUploadClick}>
+          <KTSVG path='/media/icons/duotune/files/fil010.svg' className='svg-icon-2' />
+          Upload Sheet
+        </button>
+      </Authorization>
 
       {/* begin::Export */}
-      <button type='button' className='btn btn-success me-3' onClick={redirectUncategorizedPlayers}>
-        <KTSVG path='/media/icons/duotune/files/fil001.svg' className='svg-icon-2' />
-        Uncategorized Players
-      </button>
+      <Authorization allowedPermissions={['view-uncategorized-player']}>
+        <button type='button' className='btn btn-success me-3' onClick={redirectUncategorizedPlayers}>
+          <KTSVG path='/media/icons/duotune/files/fil001.svg' className='svg-icon-2' />
+          Uncategorized Players
+        </button>
+      </Authorization>
       {/* end::Export */}
 
       {/* begin::Add user */}
-      <button type='button' className='btn btn-primary' onClick={redirectAddTeam}>
-        <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
-        Add Player
-      </button>
+      <Authorization allowedPermissions={['create-player']}>
+        <button type='button' className='btn btn-primary' onClick={redirectAddTeam}>
+          <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-2' />
+          Add Player
+        </button>
+      </Authorization>
       {/* end::Add user */}
     </div>
   )

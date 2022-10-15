@@ -15,6 +15,7 @@ import {Player} from './_models'
 import {useQueryRequest} from './QueryRequestProvider'
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useAuthorization } from './../../../../../../../lib/authorization';
 
 const QueryResponseContext = createResponseContext<Player>(initialQueryResponse)
 const QueryResponseProvider: FC<WithChildren> = ({children}) => {
@@ -22,6 +23,7 @@ const QueryResponseProvider: FC<WithChildren> = ({children}) => {
   const [query, setQuery] = useState<string>(stringifyRequestQuery(state))
   const updatedQuery = useMemo(() => stringifyRequestQuery(state), [state])
   const navigation = useNavigate()
+  const { can } = useAuthorization()
 
   const { id } = useParams()
 
@@ -46,7 +48,7 @@ const QueryResponseProvider: FC<WithChildren> = ({children}) => {
     () => {
       return getPlayers(query, sessionId)
     },
-    {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false}
+    {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false, enabled: can({ allowedPermissions: ['view-session-players'] })}
   )
 
   return (

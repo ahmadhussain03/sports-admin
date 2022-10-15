@@ -2,6 +2,7 @@ import { FinanceTeamSearchComponent } from './FinanceTeamSearchComponent'
 import { FinancePlayerSearchComponent } from './FinancePlayerSearchComponent'
 import { FinanceSessionSearchComponent } from './FinanceSessionSearchComponent'
 import { PlayerListToolbar } from './PlayerListToolbar'
+import { Authorization } from './../../../../../../../lib/authorization';
 
 const UsersListHeader = () => {
   return (
@@ -12,7 +13,9 @@ const UsersListHeader = () => {
       <FinanceSessionSearchComponent />
       <div className='card-toolbar'>
         {/* begin::Group actions */}
-        <PlayerListToolbar />
+        <Authorization allowedPermissions={['send-outstanding-payment-request']}>
+          <PlayerListToolbar />
+        </Authorization>
         {/* end::Group actions */}
       </div>
       {/* end::Card toolbar */}

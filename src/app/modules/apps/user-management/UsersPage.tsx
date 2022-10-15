@@ -1,4 +1,5 @@
 import {Route, Routes, Outlet, Navigate} from 'react-router-dom'
+import { Authorization, AuthorizationFallback } from '../../../../lib/authorization'
 import {PageLink, PageTitle} from '../../../../_metronic/layout/core'
 import { UserApprovalsWrapper } from './user-approval-list/UserApprovalsList'
 import {UsersCreate} from './users-create/UsersCreate'
@@ -30,8 +31,10 @@ const UsersPage = () => {
           path='users'
           element={
             <>
-              <PageTitle breadcrumbs={usersBreadcrumbs}>Users list</PageTitle>
-              <UsersListWrapper />
+              <Authorization allowedPermissions={['view-user']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={usersBreadcrumbs}>Users list</PageTitle>
+                <UsersListWrapper />
+              </Authorization>
             </>
           }
         />
@@ -39,8 +42,10 @@ const UsersPage = () => {
           path='users/create'
           element={
             <>
-              <PageTitle breadcrumbs={usersBreadcrumbs}>Create Users</PageTitle>
-              <UsersCreate />
+              <Authorization allowedPermissions={['create-user']} forbiddenFallback={<AuthorizationFallback /> }>
+                <PageTitle breadcrumbs={usersBreadcrumbs}>Create Users</PageTitle>
+                <UsersCreate />
+              </Authorization>
             </>
           }
         />
@@ -48,8 +53,10 @@ const UsersPage = () => {
           path='users/edit/:id'
           element={
             <>
-              <PageTitle breadcrumbs={usersBreadcrumbs}>Edit User</PageTitle>
-              <UsersEdit />
+              <Authorization allowedPermissions={['update-user']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={usersBreadcrumbs}>Edit User</PageTitle>
+                <UsersEdit />
+              </Authorization>
             </>
           }
         />
@@ -57,8 +64,10 @@ const UsersPage = () => {
           path='users/information-form'
           element={
             <>
-              <PageTitle breadcrumbs={usersBreadcrumbs}>User Information Forms</PageTitle>
-              <UsersInformationFormListWrapper />
+              <Authorization allowedPermissions={['view-user-information-form']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={usersBreadcrumbs}>User Information Forms</PageTitle>
+                <UsersInformationFormListWrapper />
+              </Authorization>
             </>
           }
         />
@@ -66,8 +75,10 @@ const UsersPage = () => {
           path='users/approval'
           element={
             <>
-              <PageTitle breadcrumbs={usersBreadcrumbs}>User Approvals</PageTitle>
-              <UserApprovalsWrapper />
+              <Authorization allowedPermissions={['view-user-request']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={usersBreadcrumbs}>User Approvals</PageTitle>
+                <UserApprovalsWrapper />
+              </Authorization>
             </>
           }
         />
@@ -75,8 +86,10 @@ const UsersPage = () => {
           path='users/information-form/create'
           element={
             <>
-              <PageTitle breadcrumbs={usersBreadcrumbs}>Create Users Information Forms</PageTitle>
-              <UsersInformationCreate />
+              <Authorization allowedPermissions={['create-user-information-form']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={usersBreadcrumbs}>Create Users Information Forms</PageTitle>
+                <UsersInformationCreate />
+              </Authorization>
             </>
           }
         />

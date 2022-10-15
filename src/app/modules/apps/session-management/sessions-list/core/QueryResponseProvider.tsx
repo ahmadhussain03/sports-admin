@@ -13,12 +13,14 @@ import {
 import {getSessions} from './_requests'
 import {Session} from './_models'
 import {useQueryRequest} from './QueryRequestProvider'
+import { useAuthorization } from './../../../../../../lib/authorization';
 
 const QueryResponseContext = createResponseContext<Session>(initialQueryResponse)
 const QueryResponseProvider: FC<WithChildren> = ({children}) => {
   const {state} = useQueryRequest()
   const [query, setQuery] = useState<string>(stringifyRequestQuery(state))
   const updatedQuery = useMemo(() => stringifyRequestQuery(state), [state])
+  const { can } = useAuthorization()
 
   useEffect(() => {
     if (query !== updatedQuery) {
@@ -35,7 +37,7 @@ const QueryResponseProvider: FC<WithChildren> = ({children}) => {
     () => {
       return getSessions(query)
     },
-    {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false}
+    {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false, enabled: can({ allowedPermissions: ['view-session'] })}
   )
 
   return (

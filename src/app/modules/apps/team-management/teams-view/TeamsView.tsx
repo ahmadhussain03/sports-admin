@@ -37,8 +37,6 @@ const TeamsView = () => {
     )
   }
 
-  console.log(data)
-
   return (
     <>
       <div className="container">
