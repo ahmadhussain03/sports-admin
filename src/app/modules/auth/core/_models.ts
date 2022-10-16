@@ -63,7 +63,8 @@ export interface Permission {
 export interface Role {
   id: number
   name: string
-  permissions: Permission[]
+  permissions: Permission[],
+  club_id: number | null,
 }
 
 export interface UserModel {
@@ -73,7 +74,6 @@ export interface UserModel {
   email: string
   first_name: string
   last_name: string
-  user_type: string
   email_verified_at: string | null
   account_verified_at: string | null
   club_id: number | null

@@ -1,5 +1,5 @@
 import axios from '../../../utils/axios'
-import { AuthModel, UserModel } from './_models'
+import { AuthModel, Role, UserModel } from './_models'
 
 const API_URL = process.env.REACT_APP_API_URL
 const APP_URL = process.env.REACT_APP_APP_URL
@@ -12,6 +12,7 @@ export const REQUEST_PASSWORD_VERIFICATION_CODE_URL = `${API_URL}/password_forgo
 export const PASSWORD_RESET_URL = `${API_URL}/password_reset`
 export const LOGOUT_URL = `${API_URL}/logout`
 export const GOOGLE_REDIRECT = `${APP_URL}/google/redirect`
+export const GENERAL_ROLES_URL = `${API_URL}/general_roles`
 
 export interface RegisterPayload {
   firstName: string,
@@ -85,4 +86,8 @@ export function getUserByToken(token: string) {
 
 export function getGoogleRedirect() {
   return axios.get<{ redirectUrl: string }>(GOOGLE_REDIRECT)
+}
+
+export function getGeneralRoles() {
+  return axios.get<Role[]>(GENERAL_ROLES_URL)
 }

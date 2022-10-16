@@ -2,24 +2,21 @@
 import { useIntl } from 'react-intl'
 import { AsideMenuItem } from './AsideMenuItem'
 import { useAuth } from '../../../../app/modules/auth'
-import { Authorization, useAuthorization } from './../../../../lib/authorization';
+import { Authorization } from './../../../../lib/authorization';
 
 export function AsideMenuMain() {
   const intl = useIntl()
   const { currentUser } = useAuth()
-  const { can } = useAuthorization()
 
   return (
     <>
-      <Authorization allowedPermissions={['view-dashboard-stat']}>
-        <AsideMenuItem
-          to='/dashboard'
-          title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
-          fontIcon='bi-bar-chart-line'
-          bsTitle={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
-          className='py-3'
-        />
-      </Authorization>
+      <AsideMenuItem
+        to='/dashboard'
+        title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
+        fontIcon='bi-bar-chart-line'
+        bsTitle={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
+        className='py-3'
+      />
       {/* <AsideMenuItem
         to='/builder'
         title='Layout Builder'
@@ -162,18 +159,27 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/error/500' title='Error 500' hasBullet={true} />
       </AsideMenuItemWithSubMain> */}
 
-      {currentUser?.user_type === 'Owner' && (
-        <Authorization allowedPermissions={['view-user']}>
-          <AsideMenuItem
-            to='/user-management/users'
-            title='User management'
-            fontIcon='bi-people'
-            bsTitle='User management'
-            icon='/media/icons/duotune/communication/com006.svg'
-            className='py-3'
-          />
-        </Authorization>
-      )}
+      <Authorization allowedPermissions={['view-role']}>
+        <AsideMenuItem
+          to='/role-management/roles'
+          title='Role management'
+          fontIcon='bi-people'
+          bsTitle='Role management'
+          icon='/media/icons/duotune/communication/com012.svg'
+          className='py-3'
+        />
+      </Authorization>
+
+      <Authorization allowedPermissions={['view-user']}>
+        <AsideMenuItem
+          to='/user-management/users'
+          title='User management'
+          fontIcon='bi-people'
+          bsTitle='User management'
+          icon='/media/icons/duotune/communication/com006.svg'
+          className='py-3'
+        />
+      </Authorization>
 
       <Authorization allowedPermissions={['view-team']}>
         <AsideMenuItem

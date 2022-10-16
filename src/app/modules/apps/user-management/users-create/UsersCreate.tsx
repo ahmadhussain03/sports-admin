@@ -1,19 +1,20 @@
 import clsx from 'clsx'
 import { useFormik } from 'formik'
-import {KTCard, KTSVG} from '../../../../../_metronic/helpers'
+import {KTSVG} from '../../../../../_metronic/helpers'
 import { getError } from '../../../../utils/helpers'
 import { useState } from 'react';
-import { createUser } from './core/_request';
+import { createUser, getRoles } from './core/_request';
 import { useNavigate } from 'react-router-dom';
+import { LoadOptions, AsyncPaginate } from 'react-select-async-paginate';
 
-const initialValues = {
+const initialValues: { firstName: string, lastName: string, email: string, username: string, password: string, password_confirmation: string, role: { value: string, label: string } | null } = {
   firstName: '',
   lastName: '',
   email: '',
   username: '',
   password: '',
   password_confirmation: '',
-  role: '',
+  role: null,
 }
 
 const UsersCreate = () => {
@@ -25,7 +26,7 @@ const UsersCreate = () => {
     onSubmit: async (values, {setStatus, setSubmitting, setFieldError, setFieldValue}) => {
       try {
         setLoading(true)
-        await createUser(values)
+        await createUser({...values, role: values.role!.value})
         setLoading(false)
       } catch (error: any) {
         console.error(error.response)
@@ -43,6 +44,20 @@ const UsersCreate = () => {
       }
     },
   })
+
+   const loadOptions: LoadOptions<{ value: string, label: string }, any, any> = async (search, loadedOptions, { page }) => {
+
+    const response = await getRoles(search, page);
+
+    return {
+      options: response.data.data.map((data: any) => ({ value: data.id, label: data.name })),
+      hasMore: response.data.meta.next_page_url ? true : false,
+      additional: {
+        page: page + 1,
+      },
+      ...loadedOptions
+    };
+  }
 
   const onSave = (e: any) => {
     e?.preventDefault()
@@ -241,21 +256,18 @@ const UsersCreate = () => {
               {/* begin::Form group Role */}
               <div className='fv-row'>
                 <label className='form-label fw-bolder text-dark fs-7'>Role</label>
-                <select {...formik.getFieldProps('role')}
-                  className={clsx(
-                    'form-select form-select fs-7',
-                    {
-                      'is-invalid': formik.touched.role && formik.errors.role,
-                    },
-                    {
-                      'is-valid': formik.touched.role && !formik.errors.role,
-                    }
-                  )} aria-label="Select example">
-                  <option>Select Role</option>
-                  <option value="Coach">Coach</option>
-                  <option value="Treasurie">Treasurie</option>
-                  <option value="Secretary">Secretary</option>
-                </select>
+                <AsyncPaginate
+                  value={formik.values.role}
+                  loadOptions={loadOptions}
+                  onChange={value => formik.setFieldValue('role', value)}
+                  isClearable={true}
+                  additional={{
+                    page: 1,
+                  }}
+                  debounceTimeout={300}
+                  placeholder="Role"
+                  noOptionsMessage={() => "No Record Found!"}
+                />
                 {formik.touched.role && formik.errors.role && (
                   <div className='fv-plugins-message-container'>
                     <div className='fv-help-block'>

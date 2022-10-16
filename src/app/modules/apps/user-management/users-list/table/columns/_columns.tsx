@@ -1,11 +1,7 @@
 import {Column} from 'react-table'
 import {UserInfoCell} from './UserInfoCell'
-import {UserLastLoginCell} from './UserLastLoginCell'
-import {UserTwoStepsCell} from './UserTwoStepsCell'
 import {UserActionsCell} from './UserActionsCell'
-import {UserSelectionCell} from './UserSelectionCell'
 import {UserCustomHeader} from './UserCustomHeader'
-import {UserSelectionHeader} from './UserSelectionHeader'
 import {User} from '../../core/_models'
 import { Authorization } from '../../../../../../../lib/authorization'
 
@@ -23,7 +19,8 @@ const usersColumns: ReadonlyArray<Column<User>> = [
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title='Role' className='min-w-125px' />,
-    accessor: 'user_type',
+    id: 'role',
+    Cell: ({...props}) => <>{props.data[props.row.index].role.name}</>,
   },
   {
     Header: (props) => (

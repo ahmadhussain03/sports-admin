@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom'
 import {useAuth} from '../core/Auth'
 import { getError } from '../../../utils/helpers'
 import { toAbsoluteUrl } from '../../../../_metronic/helpers'
-import { useGoogleRedirect } from './../core/_hooks';
+import { useGeneralRoles, useGoogleRedirect } from './../core/_hooks';
 
 const initialValues = {
   firstName: '',
@@ -23,7 +23,9 @@ const initialValues = {
 export function RegistrationWithClub() {
   const [loading, setLoading] = useState(false)
   const {saveAuth, setCurrentUser} = useAuth()
-   const { data } = useGoogleRedirect()
+  const { data } = useGoogleRedirect()
+  const { data: roles } = useGeneralRoles()
+
   const formik = useFormik({
     initialValues,
     onSubmit: async (values, {setStatus, setSubmitting, setFieldError}) => {
@@ -249,9 +251,9 @@ export function RegistrationWithClub() {
           )}
         >
           <option>Select Role</option>
-          <option value="Coach">Coach</option>
-          <option value="Treasurie">Treasurie</option>
-          <option value="Secretary">Secretary</option>
+          {roles?.data.map(role => (
+            <option value={role.id} key={role.id}>{role.name}</option>
+          ))}
         </select>
         {formik.touched.role && formik.errors.role && (
           <div className='fv-plugins-message-container'>

@@ -6,6 +6,7 @@ import {useFormik} from 'formik'
 import {getError} from '../../../utils/helpers'
 import { useAuth } from '../../auth/core/Auth'
 import { joinClub } from '../core/_request'
+import { useGeneralRoles } from '../../auth/core/_hooks'
 
 const initialValues = {
   clubCode: '',
@@ -15,6 +16,7 @@ const initialValues = {
 export function JoinClub() {
   const [loading, setLoading] = useState(false)
   const {setCurrentUser} = useAuth()
+  const {data: roles} = useGeneralRoles()
 
   const formik = useFormik({
     initialValues,
@@ -105,9 +107,9 @@ export function JoinClub() {
           )}
         >
           <option>Select Role</option>
-          <option value="Coach">Coach</option>
-          <option value="Treasurie">Treasurie</option>
-          <option value="Secretary">Secretary</option>
+          {roles?.data.map(role => (
+            <option value={role.id} key={role.id}>{role.name}</option>
+          ))}
         </select>
         {formik.touched.role && formik.errors.role && (
           <div className='fv-plugins-message-container'>

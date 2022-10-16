@@ -13,7 +13,8 @@ const usersInformationColumns: ReadonlyArray<Column<UserInformationForm>> = [
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title='Role' className='min-w-125px' />,
-    accessor: 'user_type',
+    id: 'role',
+    Cell: ({...props}) => <>{props.data[props.row.index].role.name}</>,
   },
   {
     Header: (props) => (

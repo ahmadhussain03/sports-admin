@@ -5,12 +5,11 @@ import TopBarProgress from 'react-topbar-progress-indicator'
 import { DashboardWrapper } from '../pages/dashboard/DashboardWrapper'
 import { getCSSVariableValue } from '../../_metronic/assets/ts/_utils'
 import { WithChildren } from '../../_metronic/helpers'
-import { useAuth } from '../modules/auth'
 
 const PrivateRoutes = () => {
-  const { currentUser } = useAuth()
 
   const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
+  const RolesPage = lazy(() => import('../modules/apps/role-management/RolesPage'))
   const TeamsPage = lazy(() => import('../modules/apps/team-management/TeamsPage'))
   const PlayersPage = lazy(() => import('../modules/apps/player-management/PlayersPage'))
   const SessionsPage = lazy(() => import('../modules/apps/session-management/SessionsPage'))
@@ -27,17 +26,23 @@ const PrivateRoutes = () => {
         {/* Pages */}
         <Route path='dashboard' element={<DashboardWrapper />} />
         {/* Lazy Modules */}
-        
-        {currentUser?.user_type === 'Owner' && (
-          <Route
-            path='/user-management/*'
-            element={
-              <SuspensedView>
-                <UsersPage />
-              </SuspensedView>
-            }
-          />
-        )}
+  
+        <Route
+          path='/user-management/*'
+          element={
+            <SuspensedView>
+              <UsersPage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='/role-management/*'
+          element={
+            <SuspensedView>
+              <RolesPage />
+            </SuspensedView>
+          }
+        />
         <Route
           path='/team-management/*'
           element={
