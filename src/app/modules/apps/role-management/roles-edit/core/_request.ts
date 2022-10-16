@@ -7,7 +7,8 @@ const API_URL = process.env.REACT_APP_API_URL
 const ROLES_URL = `${API_URL}/roles`
 
 export interface UpdateRolePayload {
-    name: string,
+    name?: string,
+    permissions?: number[]
 }
 
 export function updateRole(payload: UpdateRolePayload, id: ID) {

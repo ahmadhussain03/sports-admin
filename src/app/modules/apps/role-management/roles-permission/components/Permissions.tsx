@@ -3,11 +3,12 @@ import { usePermission } from '../core/_hook';
 import { Permission, Role } from './../../../../auth/core/_models';
 
 export interface IPermissions {
-    allowedPermissions: Role['permissions'],
+    allowedPermissions: number[],
+    onPermissionChange: (permissions: number[]) => void,
     readOnly?: boolean
 } 
 
-const Permissions: React.FC<IPermissions> = ({ allowedPermissions, readOnly = true }) => {
+const Permissions: React.FC<IPermissions> = ({ allowedPermissions, readOnly = true, onPermissionChange }) => {
 
   const { data: permissions, isLoading } = usePermission()
 
@@ -25,9 +26,21 @@ const Permissions: React.FC<IPermissions> = ({ allowedPermissions, readOnly = tr
   }
 
   const hasPermission = (permission: Permission) => {
-    const findIndex = allowedPermissions.findIndex(aPermission => aPermission.id === permission.id)
+    const findIndex = allowedPermissions.findIndex(aPermission => aPermission === permission.id)
     if(findIndex === -1) return false
     return true
+  }
+
+  const onChange = (event: any) => {
+    const checked = event.target.checked
+    const value = parseInt(event.target.value)
+
+    if(checked) {
+        onPermissionChange([...allowedPermissions, value])
+    } else {
+        const updatedPermissions = allowedPermissions.filter(aPermission => aPermission !== value)
+        onPermissionChange([...updatedPermissions])
+    }
   }
 
     return (
@@ -46,7 +59,7 @@ const Permissions: React.FC<IPermissions> = ({ allowedPermissions, readOnly = tr
                                 {groupPermissions.map(gPermission => (
                                     <div className='col-6 p-2' key={gPermission.id}>
                                         <div className="form-check form-check-custom form-check-solid">
-                                            <input className="form-check-input" value={gPermission.id} type="checkbox" checked={hasPermission(gPermission)} readOnly={readOnly} />
+                                            <input className="form-check-input" value={gPermission.id} type="checkbox" checked={hasPermission(gPermission)} disabled={readOnly} onChange={onChange} />
                                             <label className="form-check-label">
                                                 {gPermission.name}
                                             </label>
