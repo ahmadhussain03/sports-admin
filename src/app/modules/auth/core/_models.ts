@@ -1,3 +1,5 @@
+import { Session } from "../../apps/session-management/sessions-list/core/_models"
+
 export interface TokenModel {
   type: string
   token: string
@@ -80,4 +82,5 @@ export interface UserModel {
   role_id: number
   club?: ClubModel
   role?: Role
+  sessions?: Session[]
 }

@@ -6,8 +6,12 @@ import { Navigate } from 'react-router-dom';
 import { UserInformationForm } from './components/UserInformationForm';
 import { PlayerInformationForm } from './components/PlayerInformationForm';
 import { SessionRsvpForm } from './components/SessionRsvpForm';
+import { useNavigate } from 'react-router-dom';
 
 const RequestInformationLayout = () => {
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         document.body.classList.add('bg-body')
         return () => {
@@ -39,16 +43,8 @@ const RequestInformationLayout = () => {
             {/* begin::Footer */}
             <div className='d-flex flex-center flex-column-auto p-10'>
                 <div className='d-flex align-items-center fw-bold fs-6'>
-                    <a href='#' className='text-muted text-hover-primary px-2'>
-                        About
-                    </a>
-
-                    <a href='#' className='text-muted text-hover-primary px-2'>
-                        Contact
-                    </a>
-
-                    <a href='#' className='text-muted text-hover-primary px-2'>
-                        Contact Us
+                    <a href='/' onClick={() => navigate('/')} className='text-muted text-hover-primary px-2'>
+                        Home
                     </a>
                 </div>
             </div>

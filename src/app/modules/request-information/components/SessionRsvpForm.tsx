@@ -24,11 +24,9 @@ const initialValues = {
 
 export function SessionRsvpForm() {
     const [loading, setLoading] = useState(false)
-    const [validating, setValidating] = useState(true)
-    const [currentSession, setCurrentSession] = useState<Session>()
     const [isPlayerVerified, setPlayerVerified] = useState<boolean>(false)
     const [isCompleted, setIsCompleted] = useState<boolean>(false)
-    const navigation = useNavigate()
+    const [sessions, setSessions] = useState<Session[]>([])
 
     const formik = useFormik({
         initialValues,
@@ -36,11 +34,11 @@ export function SessionRsvpForm() {
             setLoading(true)
             try {
 
-                await verifyPlayer({
-                    ...values,
-                    sessionId: currentSession!.id
+                const response = await verifyPlayer({
+                    ...values
                 })
                 setPlayerVerified(true)
+                setSessions(response.data)
                 toast.success('Player Verified Successfully.')
                 setStatus('')
                 setLoading(false)
@@ -61,49 +59,21 @@ export function SessionRsvpForm() {
         },
     })
 
-    const markRsvp = async (option: boolean) => {
+    const markRsvp = async ({ attendance, session }: { attendance: boolean, session: number }) => {
         setLoading(true)
         try {
-            await markAttendance({ ...formik.values, sessionId: currentSession!.id, attendance: option })
+            await markAttendance({ ...formik.values, sessionId: session, attendance: attendance })
+            setSessions(sesses => {
+                const updatedSessions = sesses.filter(sess => sess.id !== session)
+                if(updatedSessions.length === 0) setIsCompleted(true)
+                return updatedSessions
+            })
             toast.success('Attendance Marked Successfully.')
-            setIsCompleted(true)
         } catch (e) {
             toast.error('Something Went Wrong!')
         } finally {
             setLoading(false)
         }
-    }
-
-    useEffect(() => {
-        const search = window.location.search;
-        const params = new URLSearchParams(search);
-        const session = params.get('session');
-
-        const loadSession = async (id: ID) => {
-            try {
-                const response = await getSession(id)
-                setCurrentSession(response.data)
-                setValidating(false)
-            } catch (error: any) {
-                navigation('/error/404')
-            }
-        }
-
-        loadSession(session)
-
-    }, [])
-
-    if (validating) {
-        return (
-            <div className="d-flex flex-column justify-content-center align-items-center">
-                <img
-                    alt='Logo'
-                    src={toAbsoluteUrl('/media/logos/default.png')}
-                    className='h-350px'
-                />
-                Loading...
-            </div>
-        )
     }
 
     if (isCompleted) {
@@ -141,25 +111,6 @@ export function SessionRsvpForm() {
                         <div className='alert-text font-weight-bold'>{formik.status}</div>
                     </div>
                 )}
-
-                {/* begin::Form group Email */}
-                <div className='fv-row mb-7'>
-                    <label className='form-label fw-bolder text-dark fs-6'>Session Name</label>
-                    <h3>{currentSession?.name}</h3>
-                </div>
-                {/* end::Form group */}
-                {/* begin::Form group Email */}
-                <div className='fv-row mb-7'>
-                    <label className='form-label fw-bolder text-dark fs-6'>Session Type</label>
-                    <h3>{currentSession?.type}</h3>
-                </div>
-                {/* end::Form group */}
-                {/* begin::Form group Email */}
-                <div className='fv-row mb-7'>
-                    <label className='form-label fw-bolder text-dark fs-6'>Session Date</label>
-                    <h3>{currentSession?.date}</h3>
-                </div>
-                {/* end::Form group */}
 
                 {!isPlayerVerified && (
                     <>
@@ -277,27 +228,45 @@ export function SessionRsvpForm() {
                         </div>
                         {/* end::Form group */}
                         {/* begin::Form group Email */}
-                        <div className='fv-row mb-7'>
-                            <label className='form-label fw-bolder text-dark fs-6'>Confirm Attendance</label>
-                            <div className='d-flex items-center'>
-                                <a style={{ cursor: 'pointer' }} onClick={() => markRsvp(true)} className="btn btn-icon btn-success mx-2">
-                                    {!loading && <i className="fa fa-check fs-2"></i>}
-                                    {!!loading && (
-                                        <span className='indicator-progress' style={{ display: 'block' }}>
-                                            <span className='spinner-border spinner-border-sm align-middle'></span>
-                                        </span>
-                                    )}
-                                </a>
-                                <a style={{ cursor: 'pointer' }} onClick={() => markRsvp(false)} className="btn btn-icon btn-success mx-2">
-                                    {!loading && <i className="fa fa-remove fs-2"></i>}
-                                    {!!loading && (
-                                        <span className='indicator-progress' style={{ display: 'block' }}>
-                                            <span className='spinner-border spinner-border-sm align-middle'></span>
-                                        </span>
-                                    )}
-                                </a>
-                            </div>
-                        </div>
+                        <table style={{ width: '100%' }}>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Confirm</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sessions.map(session => (
+                                    <tr key={session.id}>
+                                        <td>{ session.name }</td>
+                                        <td>{ session.type }</td>
+                                        <td>{ session.date }</td>
+                                        <td>
+                                            <div className='d-flex items-center'>
+                                                <a style={{ cursor: 'pointer' }} onClick={() => markRsvp({ attendance: true, session: session.id })} className="btn btn-icon btn-success btn-sm mx-2">
+                                                    {!loading && <i className="fa fa-check fs-2"></i>}
+                                                    {!!loading && (
+                                                        <span className='indicator-progress' style={{ display: 'block' }}>
+                                                            <span className='spinner-border spinner-border-sm align-middle'></span>
+                                                        </span>
+                                                    )}
+                                                </a>
+                                                <a style={{ cursor: 'pointer' }} onClick={() => markRsvp({ attendance: false, session: session.id })} className="btn btn-icon btn-success btn-sm mx-2">
+                                                    {!loading && <i className="fa fa-remove fs-2"></i>}
+                                                    {!!loading && (
+                                                        <span className='indicator-progress' style={{ display: 'block' }}>
+                                                            <span className='spinner-border spinner-border-sm align-middle'></span>
+                                                        </span>
+                                                    )}
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                         {/* end::Form group */}
                     </>
                 )}

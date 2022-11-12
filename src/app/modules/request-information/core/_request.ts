@@ -44,7 +44,6 @@ export interface VerifyPlayerPayload {
     email: string
     firstName: string
     lastName: string
-    sessionId: number
 }
 
 export interface AttendancePayload {
@@ -76,7 +75,7 @@ export function getSession(id: ID) {
 }
 
 export function verifyPlayer(data: VerifyPlayerPayload) {
-    return axios.post(PLAYER_VERIFY_URL, data)
+    return axios.post<Session[]>(PLAYER_VERIFY_URL, data)
 }
 
 export function markAttendance(data: AttendancePayload) {
