@@ -5,6 +5,8 @@ import { PlayersEdit } from './teams-edit/PlayersEdit'
 import {PlayersListWrapper} from './players-list/PlayersList'
 import { PlayersView } from './players-view/PlayersView'
 import { Authorization, AuthorizationFallback } from './../../../../lib/authorization';
+import { PlayersInformationFormListWrapper } from './players-information-list/PlayersInformationFormList'
+import { PlayersInformationCreate } from './players-information-create/PlayersInformationCreate'
 
 const playersBreadcrumbs: Array<PageLink> = [
   {
@@ -65,6 +67,28 @@ const PlayersPage = () => {
               <Authorization allowedPermissions={['view-player']} forbiddenFallback={<AuthorizationFallback />}>
                 <PageTitle breadcrumbs={playersBreadcrumbs}>Player View</PageTitle>
                 <PlayersView />
+              </Authorization>
+            </>
+          }
+        />
+        <Route
+          path='players/information-form'
+          element={
+            <>
+              <Authorization allowedPermissions={['view-player-request-form']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={playersBreadcrumbs}>Player Information Forms</PageTitle>
+                <PlayersInformationFormListWrapper />
+              </Authorization>
+            </>
+          }
+        />
+           <Route
+          path='players/information-form/create'
+          element={
+            <>
+              <Authorization allowedPermissions={['create-player-request-form']} forbiddenFallback={<AuthorizationFallback />}>
+                <PageTitle breadcrumbs={playersBreadcrumbs}>Create Players Information Forms</PageTitle>
+                <PlayersInformationCreate />
               </Authorization>
             </>
           }

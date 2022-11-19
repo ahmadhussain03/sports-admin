@@ -7,6 +7,7 @@ import { UserInformationForm } from './components/UserInformationForm';
 import { PlayerInformationForm } from './components/PlayerInformationForm';
 import { SessionRsvpForm } from './components/SessionRsvpForm';
 import { useNavigate } from 'react-router-dom';
+import { NewPlayerInfromationForm } from './components/NewPlayerInformationForm';
 
 const RequestInformationLayout = () => {
 
@@ -58,6 +59,7 @@ const RequestInformationPage = () => (
         <Route element={<RequestInformationLayout />}>
             <Route path='user-information-form' element={<UserInformationForm />} />
             <Route path='player-information-form' element={<PlayerInformationForm />} />
+            <Route path='new-player-information-form' element={<NewPlayerInfromationForm />} />
             <Route path='session' element={<SessionRsvpForm />} />
             <Route path='*' element={<Navigate to="/error/404" />} />
         </Route>

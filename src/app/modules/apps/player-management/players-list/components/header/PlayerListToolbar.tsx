@@ -48,9 +48,22 @@ const PlayerListToolbar = () => {
     navigation('/uncategorized-player-management/players')
   }
 
+  const redirectPlayerInformationForm = () => {
+    navigation('/player-management/players/information-form')
+  }
+
   return (
     <div className='d-flex justify-content-end' data-kt-user-table-toolbar='base'>
       {/* <UsersListFilter /> */}
+
+      {/* begin::Add user */}
+       <Authorization allowedPermissions={['view-player-request-form']}>
+        <button type='button' className='btn btn-info me-3' onClick={redirectPlayerInformationForm}>
+          <KTSVG path='/media/icons/duotune/files/fil001.svg' className='svg-icon-2' />
+          Player Information Form
+        </button>
+       </Authorization>
+      {/* end::Add user */}
 
       <Authorization allowedPermissions={['import-player']}>
         <input type="file" style={{display: 'none'}} ref={inputFileRef} onInput={onFileSelect} />

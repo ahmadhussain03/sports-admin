@@ -10,7 +10,9 @@ const API_URL = process.env.REACT_APP_API_URL
 export const USER_CODE_VALIDATION = `${API_URL}/user_request_verify`
 export const USER_CODE_REGISTERATION = `${API_URL}/user_request_register`
 export const PLAYER_CODE_VALIDATION = `${API_URL}/player_request_verify`
+export const NEW_PLAYER_CODE_VALIDATION = `${API_URL}/new_player_request_verify`
 export const PLAYER_CODE_UPDATE = `${API_URL}/player_request_update`
+export const NEW_PLAYER_CODE_REGISTER = `${API_URL}/new_player_request_register`
 export const SESSION_URL = `${API_URL}/session-rsvp`
 export const PLAYER_VERIFY_URL = `${API_URL}/verify-player`
 export const ATTENDANCE_URL = `${API_URL}/player-rsvp`
@@ -34,10 +36,26 @@ export interface PlayerInformationUpdatePayload {
     code: string
 }
 
+export interface PlayerInformationRegisterPayload {
+    firstName: string,
+    lastName: string,
+    address?: string | null,
+    postCode?: string | null,
+    phoneNumber: string,
+    code: string
+    clubId: string | number
+}
+
 export interface PlayerInformationForm {
     id: number
     player_id: number
     player?: Player
+}
+
+interface NewPlayerInformationForm {
+    id: number
+    email: string
+    club_id: number
 }
 
 export interface VerifyPlayerPayload {
@@ -62,8 +80,16 @@ export function validatePlayerCode(code: string) {
     return axios.post<PlayerInformationForm>(PLAYER_CODE_VALIDATION, { code })
 }
 
+export function validateNewPlayerCode(code: string) {
+    return axios.post<NewPlayerInformationForm>(NEW_PLAYER_CODE_VALIDATION, { code })
+}
+
 export function updatePlaterInformation(data: PlayerInformationUpdatePayload) {
     return axios.post(PLAYER_CODE_UPDATE, data)
+}
+
+export function registerPlayerInformation(data: PlayerInformationRegisterPayload) {
+    return axios.post(NEW_PLAYER_CODE_REGISTER, data)
 }
 
 export function registerInformation(data: RegisterInformationPayload) {

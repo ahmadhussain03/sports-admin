@@ -11,6 +11,7 @@ const QUERIES = {
   SESSION_LOG_LIST: 'sessions-log-list',
   UNCATEGORIZED_PLAYER_LIST: 'uncategorized-players-list',
   USERS_INFORMATION_FORM_LIST: 'users-information-form-list',
+  PLAYERS_INFORMATION_FORM_LIST: 'players-information-form-list',
 }
 
 export { QUERIES }
