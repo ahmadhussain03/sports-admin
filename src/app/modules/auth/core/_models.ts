@@ -53,6 +53,7 @@ export interface UserSocialNetworksModel {
 export interface ClubModel {
   id: number
   name: string
+  code: string
 }
 
 export interface Permission {

@@ -10,10 +10,12 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import axios from 'axios'
 import Logo from './Icons/default-1.png'
 import { Authorization } from '../../../lib/authorization'
+import { useAuth } from '../../modules/auth'
 const API_URL = process.env.REACT_APP_API_URL
 
 const DashboardPage = () => {
   const navigate = useNavigate()
+  const { currentUser } = useAuth()
 
   const {data, isLoading} = useUpcomingSession()
   let [stats, setStats] = useState({players: 0, sessions: 0, teams: 0})
@@ -72,11 +74,23 @@ const DashboardPage = () => {
       {/* </div> */}
       {/* end::Row  */}
       <div className='row align-items-center my-2'>
-        <div className='col-md-6 col-sm-12'>
+        <div className='col-md-4 col-sm-12'>
           <img src={Logo} width={200} height={80} alt="logo" />
         </div>
+        <div className='card my-2 col-md-4 col-sm-12'>
+          <div className="card-body w-full p-2">
+            <div className='flex flex-row'>
+              <div className=''>
+                <p>CLUB NAME: <span style={{ fontWeight: 'bold' }}>{currentUser?.club?.name}</span></p>
+              </div>
+              <div>
+                <p>CLUB CODE: <span style={{ fontWeight: 'bold' }}>{currentUser?.club?.code}</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
         <Authorization allowedPermissions={['create-session']}>
-          <div className='col-md-6 col-sm-12'>
+          <div className='col-md-4 col-sm-12'>
             <button
               type='button'
               className='btn btn-primary'
@@ -92,7 +106,6 @@ const DashboardPage = () => {
       <div className='row'>
         <Authorization allowedPermissions={['view-dashboard-stat']}>
           <div className='col-md-6 col-sm-12'>
-            {' '}
             <div className={`card card-xl-stretch mb-xl-12`}>
               {/* begin::Header */}
               <div className={`card-header border-0 py-20 bg-info`}>

@@ -10,7 +10,6 @@ import { createClub } from '../core/_request'
 
 const initialValues = {
   clubName: '',
-  clubCode: '',
 }
 
 export function CreateClub() {
@@ -86,34 +85,6 @@ export function CreateClub() {
           <div className='fv-plugins-message-container'>
             <div className='fv-help-block'>
               <span role='alert'>{formik.errors.clubName}</span>
-            </div>
-          </div>
-        )}
-      </div>
-      {/* end::Form group */}
-
-      
-      {/* begin::Form group */}
-      <div className='fv-row mb-10'>
-        <label className='form-label fs-6 fw-bolder text-dark'>Club Code</label>
-        <input
-          placeholder='Club Code'
-          {...formik.getFieldProps('clubCode')}
-          className={clsx(
-            'form-control form-control-lg form-control-solid',
-            {'is-invalid': formik.touched.clubCode && formik.errors.clubCode},
-            {
-              'is-valid': formik.touched.clubCode && !formik.errors.clubCode,
-            }
-          )}
-          type='text'
-          name='clubCode'
-          autoComplete='off'
-        />
-        {formik.touched.clubCode && formik.errors.clubCode && (
-          <div className='fv-plugins-message-container'>
-            <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.clubCode}</span>
             </div>
           </div>
         )}

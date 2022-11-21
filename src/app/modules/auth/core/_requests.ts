@@ -22,7 +22,6 @@ export interface RegisterPayload {
   password: string,
   password_confirmation: string,
   clubName: string,
-  clubCode: string,
 }
 
 export interface RegisterWithClubPayload {

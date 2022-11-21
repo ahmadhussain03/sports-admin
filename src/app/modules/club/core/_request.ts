@@ -8,7 +8,6 @@ export const JOIN_CLUB = `${API_URL}/join_club`
 
 export interface CreateClubPayload {
   clubName: string,
-  clubCode: string,
 }
 
 export interface JoinClubPayload {

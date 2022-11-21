@@ -17,7 +17,6 @@ const initialValues = {
   password: '',
   password_confirmation: '',
   clubName: '',
-  clubCode: '',
 }
 
 export function Registration() {
@@ -32,7 +31,6 @@ export function Registration() {
         const {data: auth} = await register(
           {
             clubName: values.clubName,
-            clubCode: values.clubCode,
             email: values.email,
             firstName: values.firstName,
             lastName: values.lastName,
@@ -228,32 +226,6 @@ export function Registration() {
           <div className='fv-plugins-message-container'>
             <div className='fv-help-block'>
               <span role='alert'>{formik.errors.clubName}</span>
-            </div>
-          </div>
-        )}
-      </div>
-      {/* end::Form group */}
-
-       {/* begin::Form group Club Name */}
-      <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>Club Code</label>
-        <input
-          placeholder='Club Code'
-          type='text'
-          autoComplete='off'
-          {...formik.getFieldProps('clubCode')}
-          className={clsx(
-            'form-control form-control-lg form-control-solid',
-            {'is-invalid': formik.touched.clubCode && formik.errors.clubCode},
-            {
-              'is-valid': formik.touched.clubCode && !formik.errors.clubCode,
-            }
-          )}
-        />
-        {formik.touched.clubCode && formik.errors.clubCode && (
-          <div className='fv-plugins-message-container'>
-            <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.clubCode}</span>
             </div>
           </div>
         )}
